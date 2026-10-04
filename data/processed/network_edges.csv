@@ -1,0 +1,134 @@
+source,target,weight
+Aceh,Bengkulu,0.9015
+Aceh,Nusa Tenggara Barat,0.8899
+Aceh,Sumatera Barat,0.8684
+Aceh,Sulawesi Selatan,0.8603
+Aceh,Sumatera Utara,0.8498
+Aceh,Daerah Istimewa Yogyakarta,0.6936
+Aceh,Maluku,0.7784
+Bengkulu,Sumatera Barat,0.88
+Bengkulu,Jambi,0.9386
+Bengkulu,Sulawesi Selatan,0.9257
+Bengkulu,Sulawesi Tenggara,0.9174
+Bengkulu,Nusa Tenggara Barat,0.8856
+Bengkulu,Daerah Istimewa Yogyakarta,0.6595
+Bengkulu,Sulawesi Tengah,0.8294
+Bengkulu,Gorontalo,0.8484
+Bengkulu,Sulawesi Barat,0.8504
+Bengkulu,Maluku,0.7886
+Nusa Tenggara Barat,Lampung,0.8947
+Nusa Tenggara Barat,Sumatera Selatan,0.8716
+Nusa Tenggara Barat,Sulawesi Selatan,0.8631
+Nusa Tenggara Barat,Nusa Tenggara Timur,0.7415
+Nusa Tenggara Barat,Kalimantan Barat,0.8238
+Sumatera Barat,Sumatera Utara,0.8615
+Sumatera Barat,Jambi,0.9244
+Sumatera Barat,Sulawesi Selatan,0.8867
+Sumatera Barat,Banten,0.8847
+Sumatera Barat,Riau,0.8687
+Sumatera Barat,Daerah Istimewa Yogyakarta,0.7391
+Sumatera Barat,Bali,0.8474
+Sumatera Barat,Kalimantan Selatan,0.8641
+Sulawesi Selatan,Sumatera Utara,0.9466
+Sulawesi Selatan,Riau,0.9408
+Sulawesi Selatan,Jambi,0.9445
+Sulawesi Selatan,Lampung,0.8996
+Sulawesi Selatan,Jawa Timur,0.8586
+Sulawesi Selatan,Banten,0.8924
+Sulawesi Selatan,Sulawesi Tenggara,0.871
+Sumatera Utara,Riau,0.9416
+Sumatera Utara,Jambi,0.8702
+Sumatera Utara,Banten,0.8646
+Sumatera Utara,Jawa Timur,0.8248
+Riau,Sulawesi Utara,0.9483
+Riau,Jambi,0.9197
+Riau,Kalimantan Tengah,0.9083
+Riau,Kepulauan Riau,0.7822
+Riau,Bali,0.8608
+Riau,Kalimantan Timur,0.8951
+Jambi,Kalimantan Selatan,0.9069
+Jambi,Kepulauan Bangka Belitung,0.8728
+Jambi,Banten,0.8876
+Jambi,Kalimantan Barat,0.8635
+Jambi,Kalimantan Tengah,0.8673
+Jambi,Kalimantan Utara,0.8058
+Jambi,Sulawesi Utara,0.9034
+Jambi,Maluku Utara,0.8085
+Banten,Sumatera Selatan,0.9113
+Banten,Lampung,0.8971
+Banten,DKI Jakarta,0.5307
+Banten,Jawa Barat,0.8666
+Banten,Jawa Tengah,0.8275
+Banten,Kalimantan Selatan,0.8845
+Sulawesi Utara,Kepulauan Bangka Belitung,0.8852
+Sulawesi Utara,Kepulauan Riau,0.851
+Sulawesi Utara,Bali,0.8746
+Sulawesi Utara,Kalimantan Tengah,0.9543
+Sulawesi Utara,Kalimantan Timur,0.8966
+Sulawesi Utara,Kalimantan Utara,0.8792
+Kalimantan Tengah,Kepulauan Bangka Belitung,0.9222
+Kalimantan Tengah,Kepulauan Riau,0.7815
+Kalimantan Tengah,Kalimantan Utara,0.8862
+Kalimantan Tengah,Kalimantan Timur,0.8406
+Kalimantan Selatan,Kepulauan Bangka Belitung,0.8593
+Kalimantan Selatan,Kalimantan Barat,0.8647
+Sumatera Selatan,Lampung,0.9787
+Sumatera Selatan,Jawa Tengah,0.9087
+Sumatera Selatan,Jawa Barat,0.8928
+Sumatera Selatan,Kalimantan Barat,0.8765
+Lampung,Jawa Tengah,0.9087
+Lampung,Kalimantan Barat,0.898
+Lampung,Jawa Barat,0.8585
+Lampung,Jawa Timur,0.8504
+Jawa Tengah,Jawa Barat,0.9465
+Jawa Tengah,Jawa Timur,0.9339
+Jawa Barat,Jawa Timur,0.857
+Sulawesi Tenggara,Sulawesi Tengah,0.9632
+Sulawesi Tenggara,Gorontalo,0.9102
+Sulawesi Tenggara,Maluku,0.8737
+Sulawesi Tenggara,Sulawesi Barat,0.8694
+Sulawesi Tenggara,Maluku Utara,0.8519
+Kepulauan Bangka Belitung,Kalimantan Utara,0.8537
+Kalimantan Utara,Maluku Utara,0.9167
+Kepulauan Riau,Kalimantan Timur,0.9315
+Kepulauan Riau,Bali,0.9281
+Kepulauan Riau,DKI Jakarta,0.6573
+Kalimantan Timur,DKI Jakarta,0.5519
+Kalimantan Timur,Daerah Istimewa Yogyakarta,0.6999
+Kalimantan Timur,Bali,0.9249
+Bali,DKI Jakarta,0.6611
+Bali,Daerah Istimewa Yogyakarta,0.7082
+DKI Jakarta,Daerah Istimewa Yogyakarta,0.6283
+Nusa Tenggara Timur,Maluku,0.7127
+Nusa Tenggara Timur,Sulawesi Tengah,0.7035
+Nusa Tenggara Timur,Papua Barat,0.6923
+Nusa Tenggara Timur,Sulawesi Barat,0.6915
+Nusa Tenggara Timur,Papua Barat Daya,0.5843
+Nusa Tenggara Timur,Papua,0.6198
+Nusa Tenggara Timur,Papua Selatan,0.6738
+Nusa Tenggara Timur,Papua Tengah,0.1949
+Nusa Tenggara Timur,Papua Pegunungan,0.1413
+Maluku,Sulawesi Tengah,0.8489
+Maluku,Gorontalo,0.7571
+Maluku,Papua Barat Daya,0.5433
+Maluku,Papua,0.7493
+Maluku,Papua Selatan,0.6796
+Sulawesi Tengah,Gorontalo,0.9377
+Sulawesi Tengah,Sulawesi Barat,0.8757
+Papua Barat,Papua Selatan,0.9225
+Papua Barat,Papua Barat Daya,0.8559
+Papua Barat,Papua,0.7428
+Papua Barat,Sulawesi Barat,0.5966
+Papua Barat,Papua Tengah,0.2569
+Papua Barat,Papua Pegunungan,0.2086
+Sulawesi Barat,Gorontalo,0.9391
+Sulawesi Barat,Maluku Utara,0.8668
+Maluku Utara,Gorontalo,0.8062
+Gorontalo,Papua Tengah,0.1434
+Papua Selatan,Papua Barat Daya,0.7319
+Papua Selatan,Papua,0.7434
+Papua Selatan,Papua Tengah,0.3299
+Papua Selatan,Papua Pegunungan,0.2082
+Papua Barat Daya,Papua,0.8477
+Papua Barat Daya,Papua Pegunungan,0.1062
+Papua Tengah,Papua Pegunungan,0.7559
