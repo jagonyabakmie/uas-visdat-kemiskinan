@@ -144,8 +144,8 @@ div[data-testid="stVerticalBlock"] {gap:10px;}
 /* ---------- teks panjang: ukuran huruf diskalakan otomatis agar mengisi kotak (lihat skrip fit) ---------- */
 .fit {overflow:hidden; font-size:15px;}
 .intro {display:flex; flex-direction:column; gap:.75em; color:#374151;}
-.intro h1 {font-size:1.75em; font-weight:700; color:#111827; line-height:1.2; margin:0; padding:0;}
-.intro .lead {font-size:1.1em; color:#1f3a5f; font-weight:600; margin:.25em 0 .6em 0;}
+.intro h1 {font-size:1.75em; font-weight:700; color:#111827; line-height:1.2; margin:0; padding:0; white-space:nowrap; overflow:hidden;}
+.intro .lead {font-size:1.1em; color:#1f3a5f; font-weight:600; margin:.25em 0 .6em 0; white-space:nowrap; overflow:hidden;}
 .intro p {font-size:1em; line-height:1.55; margin:0; color:#374151;}
 .intro p b {color:#111827;}
 .intro h3 {font-size:1.12em; font-weight:700; color:#111827; margin:0 0 .3em 0; padding:0;}
@@ -178,6 +178,8 @@ div[data-testid="stVerticalBlock"] {gap:10px;}
 .ctitle {font-size:.98rem; font-weight:700; color:#111827; line-height:1.35; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
 .csub {font-size:.82rem; color:#6b7280; line-height:1.4; margin-top:2px; height:2.8em; overflow:hidden; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical;}
 .csub.free {height:auto; display:block;}
+.foot span:first-child {white-space:nowrap; flex-shrink:0;}
+.foot span:last-child {text-align:right;}
 .foot {display:flex; justify-content:space-between; gap:14px; font-size:.75rem; color:#9ca3af; border-top:1px solid #f0f1f3; padding-top:5px; line-height:1.3;}
 /* ---------- KPI ---------- */
 .kpis {display:grid; grid-template-columns:repeat(5, minmax(0, 1fr)); gap:12px;}
@@ -216,7 +218,7 @@ div[data-testid="stSegmentedControl"] label, div[data-testid="stTextInput"] labe
 .t5 .bw {height:11px; background:#f3f4f6; border-radius:3px; overflow:hidden;}
 .t5 .bw i {display:block; height:100%; background:#b2182b; border-radius:3px;}
 [data-testid="stLayoutWrapper"]:has(> .st-key-colL) {flex:0 0 calc(60% - 8px) !important; width:calc(60% - 8px) !important; max-width:calc(60% - 8px) !important;}
-[data-testid="stLayoutWrapper"]:has(> .st-key-card_intro) {flex:0 0 calc(48% - 8px) !important; width:calc(48% - 8px) !important; max-width:calc(48% - 8px) !important;}
+[data-testid="stLayoutWrapper"]:has(> .st-key-colD) {flex:0 0 calc(48% - 8px) !important; width:calc(48% - 8px) !important; max-width:calc(48% - 8px) !important;}
 [data-testid="stLayoutWrapper"]:has(> .st-key-card_scatter) {flex:0 0 calc(58% - 8px) !important; width:calc(58% - 8px) !important; max-width:calc(58% - 8px) !important;}
 [data-testid="stLayoutWrapper"]:has(> .st-key-card_map) {flex:0 0 calc(72% - 8px) !important; width:calc(72% - 8px) !important; max-width:calc(72% - 8px) !important;}
 [data-testid="stLayoutWrapper"]:has(> .st-key-card_lisa) {flex:0 0 calc(64% - 8px) !important; width:calc(64% - 8px) !important; max-width:calc(64% - 8px) !important;}
@@ -225,20 +227,15 @@ div[data-testid="stSegmentedControl"] label, div[data-testid="stTextInput"] labe
 [data-testid="stLayoutWrapper"]:has(> .st-key-card_treemap) {flex:0 0 calc(58% - 8px) !important; width:calc(58% - 8px) !important; max-width:calc(58% - 8px) !important;}
 [data-testid="stLayoutWrapper"]:has(> .st-key-card_net) {flex:0 0 calc(56% - 8px) !important; width:calc(56% - 8px) !important; max-width:calc(56% - 8px) !important;}
 [data-testid="stLayoutWrapper"]:has(> .st-key-card_table) {flex:0 0 calc(54% - 8px) !important; width:calc(54% - 8px) !important; max-width:calc(54% - 8px) !important;}
-@media (max-height: 780px) {
-  .intro .howto {display:none;}
-}
 @media (max-height: 760px) {
   .meth .opt {display:none;}
-}
-@media (max-height: 620px) {
-  .intro .howto {display:none;}
 }
 @media (max-width: 760px) {
   html, body, .stApp, [data-testid="stAppViewContainer"], [data-testid="stMain"] {overflow:auto !important; height:auto !important;}
   [data-testid="stMainBlockContainer"], .block-container {padding:58px 12px 24px 12px !important;}
   .st-key-phrow {height:auto; flex-wrap:wrap !important;}
   .interp, .intro, .meth {height:auto !important;}
+  .intro h1, .intro .lead {white-space:normal;}
   .ph {height:auto; flex-direction:column; align-items:flex-start; gap:4px; padding-left:0 !important;}
   .ph h2, .ph p, .scope {white-space:normal; text-align:left;}
   .tiles {grid-template-columns:repeat(2, minmax(0,1fr));}
@@ -246,7 +243,7 @@ div[data-testid="stSegmentedControl"] label, div[data-testid="stTextInput"] labe
      height:auto !important; max-height:none !important; overflow:visible !important;}
   [class*="st-key-row_"] > [data-testid="stLayoutWrapper"], [data-testid="stLayoutWrapper"]:has(> [class*="st-key-"]) {
      flex:1 1 auto !important; width:100% !important; max-width:100% !important;}
-  [class*="st-key-card_"], .st-key-colL {height:auto !important; max-height:none !important; width:100% !important;}
+  [class*="st-key-card_"], .st-key-colL, .st-key-colD {height:auto !important; max-height:none !important; width:100% !important;}
   .intro, .meth {height:auto !important; overflow:visible; padding-bottom:10px;}
   .intro .howto, .intro .menu {display:block !important;}
   .ctitle {white-space:normal;}
@@ -277,7 +274,16 @@ def cw(frac):
 PAGE_H = VH - 14 - 58 - 10 - 30   # tinggi area isi di bawah judul halaman
 if MOBILE:
     PAGE_H = min(PAGE_H, 560)
-INT_H = 86 if VH < 720 else 96 if VH < 900 else 108   # tinggi strip interpretasi
+INT_H = 86 if VH < 720 else 96 if VH < 900 else 108   # tinggi awal strip interpretasi
+# ukuran huruf interpretasi: satu nilai untuk semua halaman, sebesar mungkin agar ±520 karakter muat dalam 3 baris
+_fs_h = (INT_H - 23) / 4.5
+_fs_w = (MAIN_W - 34) * 3 / (0.44 * 520)
+IFS = 15.0 if MOBILE else min(18.0, np.floor(min(_fs_h, _fs_w) * 2) / 2)
+N_LINES = 3
+if not MOBILE and IFS < 13:                   # layar sempit: empat baris agar huruf tidak di bawah 13 px
+    IFS, N_LINES = 13.0, 4
+if not MOBILE:
+    INT_H = int(np.ceil(1.5 * N_LINES * IFS + 23))
 IH = 0 if MOBILE else INT_H + 8
 CTRL = 72                          # tinggi baris kontrol (label + kotak pilihan + jarak)
 
@@ -372,13 +378,21 @@ with st.container(key="fitjs"):
       const sc = d.createElement('script');
       sc.textContent = `
         (function(){
+          function one(el){
+            el.querySelectorAll('h1, .lead').forEach(h=>{ h.style.fontSize=''; let s=parseFloat(getComputedStyle(h).fontSize);
+              while(h.scrollWidth>h.clientWidth+1 && s>13){ s-=.5; h.style.fontSize=s+'px'; } });
+          }
+          function size(el,px){ el.style.fontSize=px+'px'; one(el); }
           function fit(el){
             const mn=+el.dataset.min||12, mx=+el.dataset.max||18;
             if(el.style.height==='auto'){ el.style.fontSize=Math.min(mx,16)+'px'; return; }
-            let lo=mn, hi=mx; el.style.fontSize=mx+'px';
+            const opt=el.querySelectorAll('.howto'); opt.forEach(o=>o.style.display='');
+            let lo=mn, hi=mx; size(el,mx);
             if(el.scrollHeight<=el.clientHeight+1) return;
-            for(let i=0;i<10;i++){ const m=(lo+hi)/2; el.style.fontSize=m+'px'; if(el.scrollHeight<=el.clientHeight+1) lo=m; else hi=m; }
-            el.style.fontSize=lo+'px';
+            size(el, mx>16?16:mn);   // bagian tambahan hanya ditampilkan bila muat dengan huruf yang nyaman dibaca
+            if(opt.length && el.scrollHeight>el.clientHeight+1){ opt.forEach(o=>o.style.display='none'); size(el,mx); if(el.scrollHeight<=el.clientHeight+1) return; }
+            for(let i=0;i<10;i++){ const m=(lo+hi)/2; size(el,m); if(el.scrollHeight<=el.clientHeight+1) lo=m; else hi=m; }
+            size(el,lo);
           }
           function run(){ document.querySelectorAll('.fit').forEach(fit); }
           let t; const kick=()=>{ clearTimeout(t); t=setTimeout(run,80); };
@@ -617,10 +631,15 @@ def interp_data(T):
             f"sedangkan median IPM {fmt(T.IPM.median())}. Data dapat diunduh dalam format CSV untuk analisis lanjutan; "
             "angka dibulatkan dua desimal sesuai tabel sumber BPS.")
 
-def interp(text):
-    h = "auto" if MOBILE else f"{INT_H}px"
-    st.markdown(f"<div class='interp fit' data-min='13' data-max='18' style='height:{h}'><span class='it'>Interpretasi.</span>{text}</div>",
+def interp(text, h=None):
+    h = "auto" if MOBILE else f"{h or INT_H}px"
+    st.markdown(f"<div class='interp fit' data-min='11' data-max='{IFS}' style='height:{h}'><span class='it'>Interpretasi.</span>{text}</div>",
                 unsafe_allow_html=True)
+
+def interp_height(text, width):
+    """Perkiraan tinggi kotak interpretasi (px) untuk lebar kotak tertentu pada ukuran huruf IFS."""
+    lines = int(np.ceil((len(text) + 14) * 0.45 * IFS / max(width - 34, 100)))
+    return int(np.ceil(lines * 1.5 * IFS + 23))
 
 # =====================================================================================
 # FUNGSI PETA
@@ -697,6 +716,8 @@ def map_layout(fig, center, zoom, leg, horizontal=False):
     if horizontal:
         lg.update(orientation="h", x=.5, xanchor="center", y=0, yanchor="bottom", title=dict(text=leg + " ", side="left"),
                   font=dict(size=10.5), itemwidth=30, tracegroupgap=0)
+        if not MOBILE and cw(.64) < 720:   # kartu sempit: judul legenda dihilangkan agar semua kelas tampil
+            lg.update(title=dict(text=""), font=dict(size=10))
     if horizontal:  # geser peta sedikit ke atas agar tidak tertutup legenda di bawah
         center = dict(lon=center["lon"], lat=center["lat"] - 22 * 360 / (512 * 2 ** zoom))
     fig.update_layout(map=dict(style=MAP_STYLE, center=center, zoom=zoom), legend=lg)
@@ -725,45 +746,49 @@ if hal == "Dashboard":
             (f"{fmt(D.P2.median())}", "Median P2, indeks keparahan", "#c94f3d"),
             (f"{fmt(META['moran']['P1']['I'], 2)}", "Moran's I P1, autokorelasi spasial", "#5b6472"),
         ]
+        TILE_H = 78 if VH < 760 else 86 if VH < 900 else 94
         st.markdown("<div class='tiles' style='margin-bottom:2px'>" + "".join(
-            f"<div class='tile' style='background:{c}'><div class='v'>{v}</div><div class='l'>{l}</div></div>" for v, l, c in kpis)
+            f"<div class='tile' style='background:{c};{'' if MOBILE else f'height:{TILE_H}px'}'><div class='v'>{v}</div><div class='l'>{l}</div></div>" for v, l, c in kpis)
             + "</div>", unsafe_allow_html=True)
-        RH = PAGE_H - 100
+        RH = PAGE_H - TILE_H - 4
         with row("r0", RH):
-            with card("intro", RH):
-                n_hid = len(D[(D.P0 < MED["P0"]) & (D.INTENSITAS > KAB.INTENSITAS.quantile(.75))])
-                n_hh = int((D.LISA_P1 == "Tinggi–Tinggi").sum())
-                top_kab = D.loc[D.P1.idxmax()]
-                kal = [f"Pada {_lingkup()}, median P1 sebesar {fmt(D.P1.median())} dan nilai tertinggi tercatat di "
-                       f"{top_kab.nama} ({fmt(top_kab.P1)}) dengan P0 {fmt(top_kab.P0)} persen."]
-                g, lab = _grup()
-                if g and len(D) >= KECIL:
-                    md = D.groupby(g).P1.median().sort_values()
-                    kal.append(f"Menurut {lab}, median P1 tertinggi terdapat di {md.index[-1]} ({fmt(md.iloc[-1])}) dan terendah di "
-                               f"{md.index[0]} ({fmt(md.iloc[0])}).")
-                if len(P_sel) > 1:
-                    pt = P_sel.sort_values("MISKIN", ascending=False)
-                    pk = P_sel.sort_values("P1", ascending=False)
-                    kal.append(f"Penduduk miskin terbanyak berada di {pt.provinsi.iloc[0]}, sedangkan P1 provinsi tertinggi dimiliki "
-                               f"{pk.provinsi.iloc[0]} ({fmt(pk.P1.iloc[0])}); jumlah dan kedalaman kemiskinan tidak terpusat di wilayah yang sama."
-                               if pt.provinsi.iloc[0] != pk.provinsi.iloc[0] else
-                               f"{pt.provinsi.iloc[0]} memiliki penduduk miskin terbanyak sekaligus P1 provinsi tertinggi ({fmt(pk.P1.iloc[0])}).")
-                kal.append((f"Sebanyak {n_hid} kab/kota memiliki P0 di bawah median nasional tetapi intensitas kemiskinan di atas kuartil ketiga. "
-                            if n_hid else "Tidak ada kab/kota terpilih yang memiliki P0 di bawah median nasional dengan intensitas kemiskinan "
-                            "di atas kuartil ketiga. ")
-                           + (f"Sebanyak {n_hh} kab/kota termasuk kantong P1 Tinggi–Tinggi pada analisis LISA." if n_hh else
-                              "Tidak ada kab/kota terpilih yang termasuk kantong P1 Tinggi–Tinggi pada analisis LISA."))
-                st.markdown(f"""<div class='intro fit' data-min='13' data-max='20' style='height:{"auto" if MOBILE else f"{RH - 62}px"}'>
+            n_hid = len(D[(D.P0 < MED["P0"]) & (D.INTENSITAS > KAB.INTENSITAS.quantile(.75))])
+            n_hh = int((D.LISA_P1 == "Tinggi–Tinggi").sum())
+            top_kab = D.loc[D.P1.idxmax()]
+            kal = [f"Pada {_lingkup()}, median P1 sebesar {fmt(D.P1.median())} dan nilai tertinggi tercatat di "
+                   f"{top_kab.nama} ({fmt(top_kab.P1)}) dengan P0 {fmt(top_kab.P0)} persen."]
+            g, lab = _grup()
+            if g and len(D) >= KECIL:
+                md = D.groupby(g).P1.median().sort_values()
+                kal.append(f"Menurut {lab}, median P1 tertinggi terdapat di {md.index[-1]} ({fmt(md.iloc[-1])}) dan terendah di "
+                           f"{md.index[0]} ({fmt(md.iloc[0])}).")
+            if len(P_sel) > 1:
+                pt = P_sel.sort_values("MISKIN", ascending=False)
+                pk = P_sel.sort_values("P1", ascending=False)
+                kal.append(f"Penduduk miskin terbanyak berada di {pt.provinsi.iloc[0]}, sedangkan P1 provinsi tertinggi dimiliki "
+                           f"{pk.provinsi.iloc[0]} ({fmt(pk.P1.iloc[0])}); jumlah dan kedalaman kemiskinan tidak terpusat di wilayah yang sama."
+                           if pt.provinsi.iloc[0] != pk.provinsi.iloc[0] else
+                           f"{pt.provinsi.iloc[0]} memiliki penduduk miskin terbanyak sekaligus P1 provinsi tertinggi ({fmt(pk.P1.iloc[0])}).")
+            kal.append((f"Sebanyak {n_hid} kab/kota memiliki P0 di bawah median nasional tetapi intensitas kemiskinan di atas kuartil ketiga. "
+                        if n_hid else "Tidak ada kab/kota terpilih yang memiliki P0 di bawah median nasional dengan intensitas kemiskinan "
+                        "di atas kuartil ketiga. ")
+                       + (f"Sebanyak {n_hh} kab/kota termasuk kantong P1 Tinggi–Tinggi pada analisis LISA." if n_hh else
+                          "Tidak ada kab/kota terpilih yang termasuk kantong P1 Tinggi–Tinggi pada analisis LISA."))
+            teks = " ".join(kal)
+            hI = interp_height(teks, cw(.48) - 8)
+            with st.container(height="content" if MOBILE else int(RH), border=False, key="colD", gap="small"):
+                with card("intro", RH - hI - 8):
+                    st.markdown(f"""<div class='intro fit' data-min='13' data-max='{22 if VH >= 900 else 20}' style='height:{"auto" if MOBILE else f"{RH - hI - 8 - 50}px"}'>
 <div><h1>Bukan Seberapa Banyak, Tapi Seberapa Dalam</h1>
 <div class='lead'>Kedalaman dan keparahan kemiskinan kabupaten/kota di Indonesia</div>
 <p>Dashboard ini membandingkan tiga ukuran kemiskinan BPS untuk 514 kabupaten/kota (2025):
 <b>P0</b>, berapa banyak penduduk di bawah garis kemiskinan; <b>P1</b>, seberapa jauh pengeluaran mereka dari garis itu;
 dan <b>P2</b>, seberapa timpang pengeluaran di antara penduduk miskin. Wilayah dengan P0 serupa bisa memiliki P1 dan P2 yang sangat berbeda.</p></div>
-<div class='menu'><h3>Interpretasi</h3><p>{' '.join(kal)}</p></div>
 <div class='menu howto'><h3>Cara membaca</h3><p>Warna biru menandakan nilai rendah dan merah nilai tinggi. Gunakan menu di kiri
 untuk peta, autokorelasi spasial, analisis multivariat, hierarki, jaringan, serta tabel dan unduhan data.</p></div>
 </div>""", unsafe_allow_html=True)
-                foot()
+                    foot()
+                interp(teks, hI)
             with card("provbar", RH):
                 head(f"Jumlah penduduk miskin menurut provinsi ({len(P_sel)} provinsi)",
                      "Ribu jiwa, 2025. Tiga provinsi teratas diberi warna berbeda.")
@@ -786,7 +811,22 @@ untuk peta, autokorelasi spasial, analisis multivariat, hierarki, jaringan, sert
                                      tickmode="array", tickvals=list(part.nm), row=1, col=k)
                     fig.update_xaxes(showgrid=False, showticklabels=False, range=[0, xmax], row=1, col=k)
                 fig.update_layout(bargap=.25)
-                chart(layout(fig, l=8, r=40, t=2, b=2), len(t) * 17 + 20 if MOBILE else RH - CH)
+                ml, mr = 8, 40
+                if len(parts) == 2:  # dua kolom: skala sama, seluruh susunan diletakkan di tengah kartu
+                    P = cw(.52) - 34
+                    fsz = 10.5 if RH < 600 else 12
+                    lab = [max(len(x) for x in pt.nm) * .5 * fsz + 10 for pt in parts]
+                    mx = [pt.MISKIN.max() for pt in parts]
+                    txt, gap = 7 * .5 * fsz + 8, 28
+                    sc = (P * .94 - sum(lab) - 2 * txt - gap) / sum(mx)
+                    w = [m * sc + txt for m in mx]
+                    x0 = (P - (sum(lab) + sum(w) + gap)) / 2 + lab[0]
+                    x2 = x0 + w[0] + gap + lab[1]
+                    for k, (a, ww) in enumerate([(x0, w[0]), (x2, w[1])], 1):
+                        fig.update_xaxes(domain=[a / P, (a + ww) / P], range=[0, ww / sc], row=1, col=k)
+                    fig.update_yaxes(automargin=False)
+                    ml = mr = 0
+                chart(layout(fig, l=ml, r=mr, t=2, b=2), len(t) * 17 + 20 if MOBILE else RH - CH)
                 foot("Angka resmi BPS tingkat provinsi")
 
 # =====================================================================================
@@ -822,7 +862,7 @@ if hal == "Persentase & Intensitas":
                 fig.update_xaxes(title="P0 (%)")
                 fig.update_yaxes(title="Intensitas, P1/P0×100 (%)")
                 chart(layout(fig, l=56, b=44), RH - CH)
-                foot("Intensitas: rata-rata jarak pengeluaran penduduk miskin ke garis kemiskinan")
+                foot("Intensitas: jarak rata-rata ke garis kemiskinan")
             with card("strip", RH):
                 head("Sebaran P1 kabupaten/kota menurut pulau", "Satu titik mewakili satu kab/kota; garis hitam adalah median pulau.")
                 fig = go.Figure()
@@ -955,7 +995,8 @@ if hal == "Autokorelasi Spasial":
                 fig.update_xaxes(title=f"{lv} baku (z)", zeroline=False)
                 fig.update_yaxes(title="Lag spasial", zeroline=False)
                 show_tags = MOBILE or RH >= 470   # pada layar pendek, provinsi kantong sudah disebut di interpretasi
-                chart(layout(fig, l=48, b=40), RH - CH - (168 if show_tags else 100))
+                tag_h = 168 + (30 if not MOBILE and cw(.36) < 420 else 0)   # label provinsi bisa turun ke baris kedua
+                chart(layout(fig, l=48, b=40), RH - CH - (tag_h if show_tags else 100))
                 cnt = D[f"LISA_{lv}"].value_counts()
                 hh = D[D[f"LISA_{lv}"] == "Tinggi–Tinggi"].provinsi.value_counts().head(3)
                 st.markdown("<div class='grid2'>" + "".join(
@@ -1002,7 +1043,7 @@ if hal == "Multivariat":
                 fig.update_layout(dragmode="lasso", legend=dict(orientation="h", x=0, y=1.01, yanchor="bottom", font=dict(size=11), bgcolor="rgba(0,0,0,0)"))
                 ev_sel = chart(layout(fig, l=48, b=44, t=58, legend=True), RH - CH, key="pca_sel", on_select="rerun", selection_mode=("box", "lasso"),
                                config={"displaylogo": False, "modeBarButtonsToRemove": ["autoScale2d", "toggleSpikelines"]})
-                foot("Panah: muatan (loading) variabel, diperbesar 8 kali")
+                foot("Panah: muatan variabel (×8)")
             sel = set()
             try:
                 for p in ev_sel.selection.points:
