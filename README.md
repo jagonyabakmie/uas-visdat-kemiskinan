@@ -4,16 +4,16 @@ Dashboard interaktif tentang **kedalaman (P1) dan keparahan (P2) kemiskinan di 5
 
 **Demo:** `https://<nama-app>.streamlit.app` *(isi setelah deploy)*
 
-Di laptop, dashboard tampil dalam satu layar tanpa scroll; di ponsel kartu disusun ke bawah. Navigasi halaman dan filter wilayah (pulau, provinsi) ada di sidebar kiri yang bisa disembunyikan. Tinggi kartu dan grafik menyesuaikan ukuran layar secara otomatis.
+Di laptop, dashboard tampil dalam satu layar tanpa scroll; di ponsel kartu disusun ke bawah. Navigasi halaman ada di sidebar kiri yang bisa disembunyikan; filter wilayah (pulau, provinsi) berupa tombol di kanan atas setiap halaman. Setiap halaman memuat interpretasi yang berubah mengikuti filter. Tinggi kartu, grafik, dan ukuran huruf menyesuaikan ukuran layar secara otomatis.
 
 ## Halaman dan topik visualisasi (Lampiran A)
 
 | Halaman | Topik | Teknik | Interaksi |
 |---|---|---|---|
-| Dashboard | Pengantar | Kotak angka sorotan, ringkasan dan temuan utama, jumlah penduduk miskin 38 provinsi | Tooltip |
-| Persentase & Intensitas | Cerita utama | Bubble scatter P0 vs intensitas, dot-strip P1 per pulau | Tooltip |
+| Dashboard | Pengantar | Kotak angka sorotan, ringkasan dan interpretasi, jumlah penduduk miskin 38 provinsi | Tooltip |
 | Peta Sebaran | **Geospasial** (514 kab/kota) | Choropleth (Jenks/kuantil/interval sama), simbol proporsional, peringkat | Tooltip, zoom/pan, legenda, pilihan layer, sorot wilayah |
 | Autokorelasi Spasial | **Geospasial** | Peta klaster LISA, diagram pencar Moran, Moran's I | Pilihan indikator, sorot wilayah |
+| Persentase & Intensitas | Cerita utama | Bubble scatter P0 vs intensitas, dot-strip P1 per pulau | Tooltip |
 | Multivariat | **Berdimensi tinggi** (10 variabel × 514 unit) | Biplot PCA, parallel coordinates | Brushing (kotak/laso) di PCA yang langsung tersorot di parallel coordinates |
 | Profil Klaster | **Berdimensi tinggi** | Heatmap terklaster (K-Means + klaster hierarki), komposisi klaster per pulau | Baris "Wilayah terpilih" mengikuti seleksi di halaman Multivariat |
 | Hierarki | **Berhierarki** (Pulau → Provinsi → Kab/Kota) | Treemap, sunburst; ukuran dan warna memakai dua variabel berbeda | Drill-down, breadcrumb |

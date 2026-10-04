@@ -81,7 +81,7 @@ html, body, .stApp, [data-testid="stAppViewContainer"], [data-testid="stMain"] {
 [data-testid="stStatusWidget"] {display:none !important;}
 header[data-testid="stHeader"] {background:transparent !important; height:0 !important; min-height:0 !important; overflow:visible !important;}
 .stElementContainer:has(style) {display:none !important;}
-.st-key-vh {position:absolute !important; top:0; left:0; width:2px !important; height:2px !important; overflow:hidden; opacity:0; pointer-events:none;}
+.st-key-fitjs, .st-key-vh {position:absolute !important; top:0; left:0; width:2px !important; height:2px !important; overflow:hidden; opacity:0; pointer-events:none;}
 div[data-testid="stVerticalBlock"] {gap:10px;}
 /* ---------- sidebar ---------- */
 [data-testid="stSidebar"] {background:#ffffff; border-right:1px solid #e3e6eb;}
@@ -141,11 +141,24 @@ div[data-testid="stVerticalBlock"] {gap:10px;}
 [class*="st-key-filterbtn"] button:hover {background:#2a4d7a !important; box-shadow:0 2px 6px rgba(31,58,95,.3);}
 [class*="st-key-filterbtn"] button:active {transform:scale(.96);}
 /* ---------- strip interpretasi ---------- */
-.interp {overflow:hidden; background:#fff; border:1px solid #e3e6eb; border-left:3px solid #1f3a5f;
-   border-radius:8px; padding:7px 14px; font-size:clamp(.76rem, 1.42vh, .95rem); line-height:1.45; color:#374151;
-   display:-webkit-box; -webkit-box-orient:vertical;}
-.interp b {color:#1f3a5f;}
+/* ---------- teks panjang: ukuran huruf diskalakan otomatis agar mengisi kotak (lihat skrip fit) ---------- */
+.fit {overflow:hidden; font-size:15px;}
+.intro {display:flex; flex-direction:column; gap:.75em; color:#374151;}
+.intro h1 {font-size:1.75em; font-weight:700; color:#111827; line-height:1.2; margin:0; padding:0;}
+.intro .lead {font-size:1.1em; color:#1f3a5f; font-weight:600; margin:.25em 0 .6em 0;}
+.intro p {font-size:1em; line-height:1.55; margin:0; color:#374151;}
+.intro p b {color:#111827;}
+.intro h3 {font-size:1.12em; font-weight:700; color:#111827; margin:0 0 .3em 0; padding:0;}
+.meth {display:flex; flex-direction:column; gap:.85em; color:#374151;}
+.meth > div {margin:0;}
+.meth h4 {font-size:1.08em; font-weight:700; color:#111827; margin:0 0 .2em 0; padding:0;}
+.meth p, .meth li {font-size:1em; line-height:1.5; margin:0; color:#374151;}
+.meth ul {margin:0; padding-left:1.2em;}
+.meth a {color:#1f3a5f;}
+.interp {background:#fff; border:1px solid #e3e6eb; border-radius:10px; padding:10px 16px; line-height:1.5; color:#374151;}
+.interp .it {font-weight:700; color:#111827; margin-right:.35em;}
 [data-testid="stMarkdownContainer"]:has(.interp) {margin-bottom:0 !important;}
+[data-testid="stHeaderActionElements"], .intro h1 a, .intro h3 a, .meth h4 a {display:none !important;}
 /* ---------- judul halaman ---------- */
 .ph {display:flex; justify-content:space-between; align-items:flex-end; height:50px; border-bottom:1px solid #e3e6eb; padding-bottom:8px;}
 .ph h2 {font-size:1.35rem; font-weight:700; color:#111827; margin:0; padding:0; line-height:1.2; white-space:nowrap;}
@@ -180,12 +193,6 @@ div[data-testid="stVerticalBlock"] {gap:10px;}
 .sw {display:inline-block; width:10px; height:10px; border-radius:2px; margin-right:6px;}
 .tags {display:flex; flex-wrap:wrap; gap:5px; margin-top:4px;}
 .tag {font-size:.78rem; padding:2px 8px; border-radius:5px; background:#f3f4f6; color:#374151; border:1px solid #e5e7eb; line-height:1.4;}
-.meth h4 {font-size:clamp(.8rem, 1.95vh, 1.2rem); font-weight:700; color:#111827; margin:0 0 3px 0; padding:0;}
-.meth p, .meth li {font-size:clamp(.72rem, 1.78vh, 1.1rem); color:#374151; line-height:1.4; margin:0;}
-.meth ul {margin:0; padding-left:18px;}
-.meth {display:flex; flex-direction:column; justify-content:flex-start; gap:clamp(6px, 3.6vh - 12px, 30px); overflow:hidden;}
-.meth > div {margin:0;}
-.meth a {color:#1f3a5f;}
 div[data-testid="stSelectbox"] label, div[data-testid="stSlider"] label, div[data-testid="stMultiSelect"] label,
 div[data-testid="stSegmentedControl"] label, div[data-testid="stTextInput"] label {font-size:.8rem !important; color:#6b7280 !important; font-weight:600;}
 [class*="st-key-card_table"] [data-testid="stTextInput"] input {border:1px solid #d9dde3; border-radius:7px; background:#fff;}
@@ -197,19 +204,6 @@ div[data-testid="stSegmentedControl"] label, div[data-testid="stTextInput"] labe
 .stDownloadButton button:active {transform:scale(.95); background:#16477a !important; box-shadow:inset 0 2px 4px rgba(0,0,0,.25);}
 .stDownloadButton button:focus-visible {outline:2px solid #92c5de; outline-offset:2px;}
 /* panel pengantar & tabel lima besar */
-.intro {display:flex; flex-direction:column; justify-content:flex-start; gap:clamp(6px, 4.6vh - 16px, 40px); overflow:hidden;}
-.intro.spread {justify-content:space-evenly;}
-.intro .stats {margin:0 !important;}
-.intro h1 {font-size:clamp(1.3rem, 3.3vh, 2.3rem); font-weight:700; color:#111827; line-height:1.2; margin:0; padding:0;}
-.intro .lead {font-size:clamp(.88rem, 2vh, 1.3rem); color:#1f3a5f; font-weight:600; margin:4px 0 clamp(8px,1.6vh,16px) 0;}
-.intro p, .intro li {font-size:clamp(.76rem, 1.74vh, 1.15rem); color:#374151; line-height:1.5; margin:0;}
-.intro p b {color:#111827;}
-.intro .stats {display:grid; grid-template-columns:1fr 1fr; gap:8px; margin:clamp(6px,1.6vh,18px) 0;}
-.intro .stats div {background:#f5f7fa; border:1px solid #e6e9ee; border-radius:8px; padding:clamp(7px,1.6vh,18px) 12px; font-size:clamp(.72rem,1.5vh,1rem); color:#6b7280; line-height:1.3;}
-.intro .stats span {display:block; font-size:clamp(1.05rem, 2.8vh, 1.8rem); font-weight:700; color:#111827;}
-.intro h3 {font-size:clamp(.86rem,2vh,1.25rem); font-weight:700; color:#111827; margin:0 0 4px 0; padding:0;}
-.intro ul {margin:0; padding-left:18px;}
-.intro li {margin-bottom:clamp(2px, .6vh, 8px);}
 .t5 {margin-top:6px; font-size:.84rem;}
 .t5 .r {min-height:24px; display:grid; grid-template-columns:18px minmax(0,1fr) 62px 30% 42px 44px; align-items:center; gap:8px;
         padding:3px 2px; border-bottom:1px solid #f1f2f4; color:#374151; line-height:1.3;}
@@ -233,29 +227,18 @@ div[data-testid="stSegmentedControl"] label, div[data-testid="stTextInput"] labe
 [data-testid="stLayoutWrapper"]:has(> .st-key-card_table) {flex:0 0 calc(54% - 8px) !important; width:calc(54% - 8px) !important; max-width:calc(54% - 8px) !important;}
 @media (max-height: 780px) {
   .intro .howto {display:none;}
-  .meth {gap:5px !important;}
-  .meth h4 {font-size:.8rem !important;}
-  .meth p, .meth li {font-size:.72rem !important; line-height:1.32 !important;}
 }
-@media (max-height: 640px) {
+@media (max-height: 760px) {
   .meth .opt {display:none;}
-}
-@media (max-height: 670px) {
-  .intro .stats span {font-size:1rem;}
-  .intro .stats div {padding:5px 10px;}
-  .intro h1 {font-size:1.25rem;}
-  .intro .lead {margin-bottom:4px;}
 }
 @media (max-height: 620px) {
   .intro .howto {display:none;}
-  .intro p, .intro li {font-size:.74rem; line-height:1.4;}
-  .meth p, .meth li {font-size:.72rem; line-height:1.35;}
 }
 @media (max-width: 760px) {
   html, body, .stApp, [data-testid="stAppViewContainer"], [data-testid="stMain"] {overflow:auto !important; height:auto !important;}
   [data-testid="stMainBlockContainer"], .block-container {padding:58px 12px 24px 12px !important;}
   .st-key-phrow {height:auto; flex-wrap:wrap !important;}
-  .interp {height:auto !important;}
+  .interp, .intro, .meth {height:auto !important;}
   .ph {height:auto; flex-direction:column; align-items:flex-start; gap:4px; padding-left:0 !important;}
   .ph h2, .ph p, .scope {white-space:normal; text-align:left;}
   .tiles {grid-template-columns:repeat(2, minmax(0,1fr));}
@@ -291,10 +274,10 @@ MAIN_W = VW - 24 if MOBILE else VW - 292 - 44   # lebar area utama (sidebar 292 
 def cw(frac):
     """Lebar kartu dalam piksel (di ponsel kartu memakai lebar penuh)."""
     return int(MAIN_W if MOBILE else MAIN_W * frac)
-PAGE_H = VH - 14 - 58 - 10 - 22   # tinggi area isi di bawah judul halaman
+PAGE_H = VH - 14 - 58 - 10 - 30   # tinggi area isi di bawah judul halaman
 if MOBILE:
     PAGE_H = min(PAGE_H, 560)
-INT_H = 70 if VH < 720 else 80 if VH < 900 else 88   # tinggi strip interpretasi
+INT_H = 86 if VH < 720 else 96 if VH < 900 else 108   # tinggi strip interpretasi
 IH = 0 if MOBILE else INT_H + 8
 CTRL = 72                          # tinggi baris kontrol (label + kotak pilihan + jarak)
 
@@ -379,7 +362,34 @@ def card(key, h, w="stretch"):
 # =====================================================================================
 # 4. SIDEBAR: identitas, navigasi, filter
 # =====================================================================================
-PAGES = ["Dashboard", "Peta Sebaran", "Persentase & Intensitas", "Autokorelasi Spasial", "Multivariat", "Profil Klaster", "Hierarki", "Jaringan",
+# skrip penyesuaian ukuran huruf: mencari ukuran terbesar (antara data-min dan data-max) yang masih muat dalam kotak
+import streamlit.components.v1 as _components
+with st.container(key="fitjs"):
+    _components.html("""<script>
+    const W = window.parent, d = W.document;
+    if (!W.__fitInstalled) {
+      W.__fitInstalled = true;
+      const sc = d.createElement('script');
+      sc.textContent = `
+        (function(){
+          function fit(el){
+            const mn=+el.dataset.min||12, mx=+el.dataset.max||18;
+            if(el.style.height==='auto'){ el.style.fontSize=Math.min(mx,16)+'px'; return; }
+            let lo=mn, hi=mx; el.style.fontSize=mx+'px';
+            if(el.scrollHeight<=el.clientHeight+1) return;
+            for(let i=0;i<10;i++){ const m=(lo+hi)/2; el.style.fontSize=m+'px'; if(el.scrollHeight<=el.clientHeight+1) lo=m; else hi=m; }
+            el.style.fontSize=lo+'px';
+          }
+          function run(){ document.querySelectorAll('.fit').forEach(fit); }
+          let t; const kick=()=>{ clearTimeout(t); t=setTimeout(run,80); };
+          new MutationObserver(kick).observe(document.body,{childList:true,subtree:true,characterData:true});
+          window.addEventListener('resize',kick); kick();
+        })();`;
+      d.head.appendChild(sc);
+    }
+    </script>""", height=0)
+
+PAGES = ["Dashboard", "Peta Sebaran", "Autokorelasi Spasial", "Persentase & Intensitas", "Multivariat", "Profil Klaster", "Hierarki", "Jaringan",
          "Data & Metode"]
 st.logo("assets/logo_stis.png", size="large", icon_image="assets/logo_stis.png")
 with st.sidebar:
@@ -536,8 +546,8 @@ def interp_klaster(sel):
     k4 = D[D.KLASTER == "K4 · Miskin dalam"]
     if len(k4):
         t.append(f"Klaster K4 · Miskin dalam beranggotakan {len(k4)} kab/kota dengan rata-rata P1 {fmt(k4.P1.mean())}, IPM {fmt(k4.IPM.mean())}, "
-                 f"dan rata-rata lama sekolah {fmt(k4.RLS.mean())} tahun. Kedalaman kemiskinan pada klaster ini berasosiasi dengan "
-                 "capaian pendidikan dan kesehatan yang rendah, meskipun data potong lintang tidak menunjukkan arah sebab-akibat.")
+                 f"dan rata-rata lama sekolah {fmt(k4.RLS.mean())} tahun; kemiskinan yang dalam berasosiasi dengan capaian pendidikan "
+                 "dan kesehatan yang rendah, tanpa menunjukkan arah sebab-akibat.")
     else:
         t.append("Tidak ada wilayah terpilih yang termasuk klaster K4 · Miskin dalam.")
     g, lab = _grup()
@@ -609,7 +619,8 @@ def interp_data(T):
 
 def interp(text):
     h = "auto" if MOBILE else f"{INT_H}px"
-    st.markdown(f"<div class='interp' style='height:{h}'><b>Interpretasi.</b> {text}</div>", unsafe_allow_html=True)
+    st.markdown(f"<div class='interp fit' data-min='13' data-max='18' style='height:{h}'><span class='it'>Interpretasi.</span>{text}</div>",
+                unsafe_allow_html=True)
 
 # =====================================================================================
 # FUNGSI PETA
@@ -742,7 +753,7 @@ if hal == "Dashboard":
                             "di atas kuartil ketiga. ")
                            + (f"Sebanyak {n_hh} kab/kota termasuk kantong P1 Tinggi–Tinggi pada analisis LISA." if n_hh else
                               "Tidak ada kab/kota terpilih yang termasuk kantong P1 Tinggi–Tinggi pada analisis LISA."))
-                st.markdown(f"""<div class='intro spread' style='height:{"auto" if MOBILE else f"{RH - 62}px"}'>
+                st.markdown(f"""<div class='intro fit' data-min='13' data-max='20' style='height:{"auto" if MOBILE else f"{RH - 62}px"}'>
 <div><h1>Bukan Seberapa Banyak, Tapi Seberapa Dalam</h1>
 <div class='lead'>Kedalaman dan keparahan kemiskinan kabupaten/kota di Indonesia</div>
 <p>Dashboard ini membandingkan tiga ukuran kemiskinan BPS untuk 514 kabupaten/kota (2025):
@@ -1257,7 +1268,7 @@ if hal == "Data & Metode":
                 foot(f"{len(T)} baris ditampilkan")
             with card("meta", RH):
                 src = "".join(f"<li><a href='{u}' target='_blank'>{t}</a></li>" for t, u in SOURCES)
-                st.markdown(f"""<div class='meth' style='height:{"auto" if MOBILE else f"{RH - 62}px"}'>
+                st.markdown(f"""<div class='meth fit' data-min='12' data-max='18' style='height:{"auto" if MOBILE else f"{RH - 62}px"}'>
 <div><h4>Sumber data</h4><ul>{src}</ul>
 <p style='color:#6b7280;margin-top:3px'>Tahun data 2025; diakses 3 Oktober 2026. Batas wilayah: GeoJSON kab/kota (data pendukung non-BPS).</p></div>
 <div><h4>Pengolahan</h4><p>Lima tabel BPS (514 kab/kota) digabung per baris; tujuh nama wilayah diselaraskan dengan berkas batas wilayah; tidak ada nilai hilang.
