@@ -1,6 +1,6 @@
 # Bukan Seberapa Banyak, Tapi Seberapa Dalam
 
-Dashboard interaktif tentang **kedalaman (P1) dan keparahan (P2) kemiskinan di 514 kabupaten/kota Indonesia, Maret 2025**. Dibuat untuk UAS Visualisasi Data dan Informasi, Politeknik Statistika STIS, TA 2025/2026.
+Dashboard interaktif tentang **kedalaman (P1) dan keparahan (P2) kemiskinan di 514 kabupaten/kota Indonesia**. Dibuat untuk UAS Visualisasi Data dan Informasi, Politeknik Statistika STIS, TA 2025/2026.
 
 **Demo:** `https://<nama-app>.streamlit.app` *(isi setelah deploy)*
 
@@ -22,7 +22,7 @@ Di laptop, dashboard tampil dalam satu layar tanpa scroll; di ponsel kartu disus
 
 ## Data
 
-**Sumber utama: Badan Pusat Statistik (BPS).** Tahun data 2025 (kemiskinan: Maret 2025). Tanggal akses: 3 Oktober 2026.
+**Sumber utama: Badan Pusat Statistik (BPS).** Tahun data 2025. Tanggal akses: 3 Oktober 2026.
 
 1. Persentase Penduduk Miskin (P0) Menurut Kabupaten/Kota, 2025: https://www.bps.go.id/id/statistics-table/2/NjIxIzI=/persentase-penduduk-miskin-menurut-kabupaten-kota.html
 2. Indeks Kedalaman Kemiskinan (P1) Menurut Kabupaten/Kota, 2025: https://www.bps.go.id/id/statistics-table/2/NjIyIzI=/indeks-kedalaman-kemiskinan--p1--menurut-kabupaten-kota.html
@@ -80,7 +80,7 @@ streamlit run app.py
 ## Validasi pengolahan
 
 - Agregasi P0 dan jumlah penduduk miskin dari 514 kab/kota sama dengan angka provinsi BPS (selisih maksimum 0,008 poin).
-- P0 nasional hasil agregasi tertimbang = 8,47%, sama dengan angka BPS Maret 2025. Total penduduk miskin = 23,85 juta jiwa.
+- P0 nasional hasil agregasi tertimbang = 8,47%, sama dengan angka BPS 2025. Total penduduk miskin = 23,85 juta jiwa.
 - P1 dan P2 provinsi BPS tidak sama dengan rata-rata tertimbang kab/kota (estimasi langsung pada tingkat provinsi), sehingga dashboard memakai angka provinsi resmi untuk tingkat provinsi.
 
 ## Keterbatasan

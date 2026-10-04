@@ -353,7 +353,7 @@ with st.sidebar:
         f_pulau = st.multiselect("Pulau", PULAU_ORDER, placeholder="Semua pulau")
         prov_opts = sorted(KAB[KAB.pulau.isin(f_pulau)].provinsi.unique() if f_pulau else KAB.provinsi.unique())
         f_prov = st.multiselect("Provinsi", prov_opts, placeholder="Semua provinsi")
-    st.markdown("<div class='sidemeta'>Data: Badan Pusat Statistik, Maret 2025.</div>",
+    st.markdown("<div class='sidemeta'>Data: Badan Pusat Statistik, 2025.</div>",
                 unsafe_allow_html=True)
 
 D = KAB.copy()
@@ -456,7 +456,7 @@ def rank_colors(n):
     return [RANK_C[i] if i < 3 else RANK_REST for i in range(n)]
 
 if hal == "Dashboard":
-    page_header("Dashboard", "Ringkasan indikator kemiskinan kabupaten/kota di Indonesia, Maret 2025.")
+    page_header("Dashboard", "Ringkasan indikator kemiskinan kabupaten/kota di Indonesia, 2025.")
     with page():
         P_sel = PROV[PROV.provinsi.isin(D.provinsi.unique())]
         kpis = [  # (nilai, label, warna latar)
@@ -487,7 +487,7 @@ if hal == "Dashboard":
                 st.markdown(f"""<div class='intro spread' style='height:{"auto" if MOBILE else f"{RH - 62}px"}'>
 <div><h1>Bukan Seberapa Banyak, Tapi Seberapa Dalam</h1>
 <div class='lead'>Kedalaman dan keparahan kemiskinan kabupaten/kota di Indonesia</div>
-<p>Dashboard ini membandingkan tiga ukuran kemiskinan BPS untuk 514 kabupaten/kota (Maret 2025):
+<p>Dashboard ini membandingkan tiga ukuran kemiskinan BPS untuk 514 kabupaten/kota (2025):
 <b>P0</b>, berapa banyak penduduk di bawah garis kemiskinan; <b>P1</b>, seberapa jauh pengeluaran mereka dari garis itu;
 dan <b>P2</b>, seberapa timpang pengeluaran di antara penduduk miskin. Wilayah dengan P0 serupa bisa memiliki P1 dan P2 yang sangat berbeda.</p></div>
 <div class='menu'><h3>Temuan utama</h3><ul>{''.join(f'<li>{t}</li>' for t in temuan)}</ul></div>
@@ -497,7 +497,7 @@ untuk peta, autokorelasi spasial, analisis multivariat, hierarki, jaringan, sert
                 foot()
             with card("provbar", RH):
                 head(f"Jumlah penduduk miskin menurut provinsi ({len(P_sel)} provinsi)",
-                     "Ribu jiwa, Maret 2025. Tiga provinsi teratas diberi warna berbeda.")
+                     "Ribu jiwa, 2025. Tiga provinsi teratas diberi warna berbeda.")
                 t = P_sel.sort_values("MISKIN", ascending=False).reset_index(drop=True)
                 t["nm"] = [f"{i + 1}. " + p.replace("Kepulauan ", "Kep. ").replace("Nusa Tenggara", "NT")
                            .replace("Daerah Istimewa ", "DI ") for i, p in enumerate(t.provinsi)]
@@ -992,7 +992,7 @@ if hal == "Data & Metode":
                 src = "".join(f"<li><a href='{u}' target='_blank'>{t}</a></li>" for t, u in SOURCES)
                 st.markdown(f"""<div class='meth' style='height:{"auto" if MOBILE else f"{RH - 62}px"}'>
 <div><h4>Sumber data</h4><ul>{src}</ul>
-<p style='color:#6b7280;margin-top:3px'>Tahun data 2025 (kemiskinan Maret 2025); diakses 3 Oktober 2026. Batas wilayah: GeoJSON kab/kota (data pendukung non-BPS).</p></div>
+<p style='color:#6b7280;margin-top:3px'>Tahun data 2025; diakses 3 Oktober 2026. Batas wilayah: GeoJSON kab/kota (data pendukung non-BPS).</p></div>
 <div><h4>Pengolahan</h4><p>Lima tabel BPS (514 kab/kota) digabung per baris; tujuh nama wilayah diselaraskan dengan berkas batas wilayah; tidak ada nilai hilang.
 Agregasi P0 dan jumlah penduduk miskin per provinsi sama dengan angka provinsi BPS.</p></div>
 <div><h4>Metode analisis</h4><p>Moran's I dan LISA (ketetanggaan <i>queen</i>, 999 permutasi); PCA dan K-Means (k = 4) pada sepuluh indikator baku;
