@@ -132,12 +132,27 @@ div[data-testid="stVerticalBlock"] {gap:10px;}
 .tile {border-radius:8px; padding:10px 14px; color:#fff; min-height:78px; display:flex; flex-direction:column; justify-content:center;}
 .tile .v {font-size:clamp(1.35rem, 3.2vh, 2.1rem); font-weight:700; line-height:1.15; color:#fff;}
 .tile .l {font-size:clamp(.72rem, 1.45vh, .9rem); line-height:1.25; color:rgba(255,255,255,.9); margin-top:3px;}
+/* ---------- baris judul + tombol filter ---------- */
+.st-key-phrow {border-bottom:1px solid #e3e6eb; padding-bottom:8px; height:58px; flex-wrap:nowrap !important;}
+.st-key-phrow .ph {border-bottom:none !important; padding-bottom:0 !important; height:auto !important;}
+.st-key-filterbtn button, [class*="st-key-filterbtn"] button {background:#1f3a5f !important; color:#fff !important; border:1px solid #1f3a5f !important;
+   border-radius:7px; font-weight:600; padding:6px 14px; transition:background .15s, transform .08s, box-shadow .15s;}
+.st-key-filterbtn button p, [class*="st-key-filterbtn"] button p, [class*="st-key-filterbtn"] button svg {color:#fff !important; fill:#fff !important;}
+[class*="st-key-filterbtn"] button:hover {background:#2a4d7a !important; box-shadow:0 2px 6px rgba(31,58,95,.3);}
+[class*="st-key-filterbtn"] button:active {transform:scale(.96);}
+/* ---------- strip interpretasi ---------- */
+.interp {overflow:hidden; background:#fff; border:1px solid #e3e6eb; border-left:3px solid #1f3a5f;
+   border-radius:8px; padding:7px 14px; font-size:clamp(.76rem, 1.42vh, .95rem); line-height:1.45; color:#374151;
+   display:-webkit-box; -webkit-box-orient:vertical;}
+.interp b {color:#1f3a5f;}
+[data-testid="stMarkdownContainer"]:has(.interp) {margin-bottom:0 !important;}
 /* ---------- judul halaman ---------- */
 .ph {display:flex; justify-content:space-between; align-items:flex-end; height:50px; border-bottom:1px solid #e3e6eb; padding-bottom:8px;}
 .ph h2 {font-size:1.35rem; font-weight:700; color:#111827; margin:0; padding:0; line-height:1.2; white-space:nowrap;}
 .ph p {font-size:.86rem; color:#6b7280; margin:3px 0 0 0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
-.ph .scope {font-size:.8rem; color:#6b7280; text-align:right; white-space:nowrap;}
-.ph .scope b {color:#374151;}
+.scope {font-size:.8rem; color:#6b7280; text-align:right; white-space:nowrap; line-height:1.45;}
+.scope b {color:#374151;}
+[data-testid="stMarkdownContainer"]:has(.scope) {margin-bottom:0 !important;}
 /* ---------- kartu ---------- */
 [class*="st-key-card_"] {background:#fff; border:1px solid #e3e6eb !important; border-radius:10px !important; padding:12px 16px 8px 16px !important;}
 [class*="st-key-card_"] div[data-testid="stVerticalBlock"] {gap:6px;}
@@ -216,6 +231,15 @@ div[data-testid="stSegmentedControl"] label, div[data-testid="stTextInput"] labe
 [data-testid="stLayoutWrapper"]:has(> .st-key-card_treemap) {flex:0 0 calc(58% - 8px) !important; width:calc(58% - 8px) !important; max-width:calc(58% - 8px) !important;}
 [data-testid="stLayoutWrapper"]:has(> .st-key-card_net) {flex:0 0 calc(56% - 8px) !important; width:calc(56% - 8px) !important; max-width:calc(56% - 8px) !important;}
 [data-testid="stLayoutWrapper"]:has(> .st-key-card_table) {flex:0 0 calc(54% - 8px) !important; width:calc(54% - 8px) !important; max-width:calc(54% - 8px) !important;}
+@media (max-height: 780px) {
+  .intro .howto {display:none;}
+  .meth {gap:5px !important;}
+  .meth h4 {font-size:.8rem !important;}
+  .meth p, .meth li {font-size:.72rem !important; line-height:1.32 !important;}
+}
+@media (max-height: 640px) {
+  .meth .opt {display:none;}
+}
 @media (max-height: 670px) {
   .intro .stats span {font-size:1rem;}
   .intro .stats div {padding:5px 10px;}
@@ -230,8 +254,10 @@ div[data-testid="stSegmentedControl"] label, div[data-testid="stTextInput"] labe
 @media (max-width: 760px) {
   html, body, .stApp, [data-testid="stAppViewContainer"], [data-testid="stMain"] {overflow:auto !important; height:auto !important;}
   [data-testid="stMainBlockContainer"], .block-container {padding:58px 12px 24px 12px !important;}
+  .st-key-phrow {height:auto; flex-wrap:wrap !important;}
+  .interp {height:auto !important;}
   .ph {height:auto; flex-direction:column; align-items:flex-start; gap:4px; padding-left:0 !important;}
-  .ph h2, .ph p, .ph .scope {white-space:normal; text-align:left;}
+  .ph h2, .ph p, .scope {white-space:normal; text-align:left;}
   .tiles {grid-template-columns:repeat(2, minmax(0,1fr));}
   div[data-testid="stHorizontalBlock"][class*="st-key-row_"] {flex-direction:column !important; flex-wrap:nowrap !important;
      height:auto !important; max-height:none !important; overflow:visible !important;}
@@ -265,9 +291,11 @@ MAIN_W = VW - 24 if MOBILE else VW - 292 - 44   # lebar area utama (sidebar 292 
 def cw(frac):
     """Lebar kartu dalam piksel (di ponsel kartu memakai lebar penuh)."""
     return int(MAIN_W if MOBILE else MAIN_W * frac)
-PAGE_H = VH - 14 - 50 - 10 - 18   # tinggi area isi di bawah judul halaman
+PAGE_H = VH - 14 - 58 - 10 - 22   # tinggi area isi di bawah judul halaman
 if MOBILE:
     PAGE_H = min(PAGE_H, 560)
+INT_H = 70 if VH < 720 else 80 if VH < 900 else 88   # tinggi strip interpretasi
+IH = 0 if MOBILE else INT_H + 8
 CTRL = 72                          # tinggi baris kontrol (label + kotak pilihan + jarak)
 
 # =====================================================================================
@@ -316,8 +344,16 @@ CFG = {"displaylogo": False, "modeBarButtonsToRemove": ["select2d", "lasso2d", "
        "toImageButtonOptions": {"format": "png", "scale": 2}}
 
 def page_header(title, desc):
-    st.markdown(f"<div class='ph'><div><h2>{title}</h2><p>{desc}</p></div>"
-                f"<div class='scope'>Cakupan: <b>{cakupan}</b><br>{SUMBER}</div></div>", unsafe_allow_html=True)
+    with st.container(horizontal=True, vertical_alignment="center", key="phrow", gap="small"):
+        st.markdown(f"<div class='ph'><div><h2>{title}</h2><p>{desc}</p></div></div>", unsafe_allow_html=True, width="stretch")
+        n_f = len(f_pulau) + len(f_prov)
+        lab = "Filter wilayah" if not n_f else f"Filter wilayah ({n_f})"
+        with st.popover(lab, width="content", key="filterbtn"):
+            st.markdown("**Filter wilayah**")
+            st.multiselect("Pulau", PULAU_ORDER, key="f_pulau", placeholder="Semua pulau")
+            st.multiselect("Provinsi", _prov_opts, key="f_prov", placeholder="Semua provinsi")
+            st.caption("Berlaku untuk semua halaman.")
+        st.markdown(f"<div class='scope'>Cakupan: <b>{cakupan}</b><br>{SUMBER}</div>", unsafe_allow_html=True, width="content")
 
 def head(t, s=None):
     st.markdown(f"<div class='ctitle'>{t}</div>" + (f"<div class='csub'>{s}</div>" if s else ""), unsafe_allow_html=True)
@@ -349,20 +385,231 @@ st.logo("assets/logo_stis.png", size="large", icon_image="assets/logo_stis.png")
 with st.sidebar:
     st.markdown("<div class='navlabel'>MENU</div>", unsafe_allow_html=True)
     hal = st.radio("Halaman", PAGES, key="hal", label_visibility="collapsed")
-    with st.expander("Filter wilayah", expanded=False):
-        f_pulau = st.multiselect("Pulau", PULAU_ORDER, placeholder="Semua pulau")
-        prov_opts = sorted(KAB[KAB.pulau.isin(f_pulau)].provinsi.unique() if f_pulau else KAB.provinsi.unique())
-        f_prov = st.multiselect("Provinsi", prov_opts, placeholder="Semua provinsi")
     st.markdown("<div class='sidemeta'>Data: Badan Pusat Statistik, 2025.</div>",
                 unsafe_allow_html=True)
 
+# filter wilayah: nilainya dibaca dari state widget yang dirender di kanan atas setiap halaman
+f_pulau = list(st.session_state.get("f_pulau", []))
+_prov_opts = sorted(KAB[KAB.pulau.isin(f_pulau)].provinsi.unique() if f_pulau else KAB.provinsi.unique())
+f_prov = [p for p in st.session_state.get("f_prov", []) if p in _prov_opts]
+if "f_prov" in st.session_state and f_prov != list(st.session_state["f_prov"]):
+    st.session_state["f_prov"] = f_prov
 D = KAB.copy()
 if f_pulau: D = D[D.pulau.isin(f_pulau)]
 if f_prov: D = D[D.provinsi.isin(f_prov)]
 if D.empty:
-    st.warning("Tidak ada wilayah yang memenuhi filter. Kosongkan sebagian pilihan filter di sidebar.")
+    st.warning("Tidak ada wilayah yang memenuhi filter. Kosongkan sebagian pilihan filter wilayah.")
     st.stop()
 cakupan = "514 kabupaten/kota" if len(D) == len(KAB) else f"{len(D)} dari 514 kabupaten/kota"
+
+# =====================================================================================
+# INTERPRETASI DINAMIS (mengikuti filter wilayah dan pilihan pada tiap tab)
+# =====================================================================================
+from scipy.stats import spearmanr
+
+def _lingkup():
+    """Frasa cakupan wilayah untuk kalimat interpretasi."""
+    if len(D) == len(KAB):
+        return "seluruh 514 kabupaten/kota"
+    if f_prov:
+        nm = ", ".join(f_prov[:-1]) + (" dan " if len(f_prov) > 1 else "") + f_prov[-1]
+        return f"{len(D)} kabupaten/kota di {'Provinsi ' if len(f_prov) == 1 else 'provinsi '}{nm}"
+    nm = ", ".join(f_pulau[:-1]) + (" dan " if len(f_pulau) > 1 else "") + f_pulau[-1]
+    return f"{len(D)} kabupaten/kota di wilayah {nm}"
+
+def _grup():
+    """Tingkat pengelompokan yang bermakna untuk wilayah terpilih."""
+    if D.pulau.nunique() > 1:
+        return "pulau", "pulau"
+    if D.provinsi.nunique() > 1:
+        return "provinsi", "provinsi"
+    return None, None
+
+def _daftar(xs):
+    xs = list(xs)
+    return xs[0] if len(xs) == 1 else ", ".join(xs[:-1]) + " dan " + xs[-1]
+
+def _pct(a, b):
+    return fmt(100 * a / b, 1) if b else "0"
+
+def _r(x, y):
+    return spearmanr(x, y)[0] if len(x) >= 8 else None
+
+KECIL = 8  # di bawah jumlah ini interpretasi statistik diberi catatan
+
+def interp_peta(var, jenis):
+    nm = LABEL[var].split(",")[0] if var != "INTENSITAS" else "intensitas kemiskinan"
+    s = D[var]; n = len(D)
+    hi_r, lo_r = D.loc[s.idxmax()], D.loc[s.idxmin()]
+    t = [f"Pada {_lingkup()}, median {nm} sebesar {fmt(s.median())} dengan rentang {fmt(s.min())} hingga {fmt(s.max())}."]
+    if var == "IPM":
+        t.append(f"Capaian terendah terdapat di {lo_r.nama} ({fmt(lo_r.IPM)}) dan tertinggi di {hi_r.nama} ({fmt(hi_r.IPM)}).")
+    else:
+        t.append(f"Nilai tertinggi tercatat di {hi_r.nama}, {hi_r.provinsi} ({fmt(hi_r[var])}), sedangkan terendah di {lo_r.nama} ({fmt(lo_r[var])}).")
+    g, lab = _grup()
+    if g and n >= KECIL:
+        md = D.groupby(g)[var].median().sort_values()
+        a, b = md.index[-1], md.index[0]
+        if var == "IPM":
+            t.append(f"Menurut {lab}, median IPM tertinggi berada di {a} ({fmt(md.iloc[-1])}) dan terendah di {b} ({fmt(md.iloc[0])}).")
+        else:
+            rasio = md.iloc[-1] / md.iloc[0] if md.iloc[0] > 0 else None
+            t.append(f"Menurut {lab}, median tertinggi berada di {a} ({fmt(md.iloc[-1])}) dan terendah di {b} ({fmt(md.iloc[0])})"
+                     + (f", atau sekitar {fmt(rasio, 1)} kali lipat." if rasio and rasio >= 1.5 else "."))
+    if jenis == "Simbol proporsional" and n >= 10:
+        k = max(1, int(round(n * .1)))
+        top = D.nlargest(k, "MISKIN")
+        di_atas = int((top.P1 > MED["P1"]).sum())
+        t.append(f"Sepersepuluh wilayah dengan penduduk miskin terbanyak ({k} kab/kota) menampung {_pct(top.MISKIN.sum(), D.MISKIN.sum())} "
+                 f"persen penduduk miskin wilayah ini, tetapi hanya {di_atas} di antaranya memiliki P1 di atas median nasional. "
+                 "Wilayah dengan jumlah penduduk miskin besar tidak selalu memiliki kemiskinan yang dalam.")
+    elif var != "IPM":
+        tinggi = int((s > s.quantile(.9)).sum()) if n >= 10 else 0
+        if tinggi:
+            sh = 100 * D.loc[s > s.quantile(.9), "MISKIN"].sum() / D.MISKIN.sum()
+            if sh < 10:
+                t.append(f"Sepersepuluh wilayah dengan nilai tertinggi ({tinggi} kab/kota) hanya menampung {fmt(sh, 1)} persen penduduk "
+                         "miskin, sehingga kemiskinan yang paling dalam terkonsentrasi pada wilayah berpenduduk relatif kecil.")
+            else:
+                t.append(f"Sepersepuluh wilayah dengan nilai tertinggi ({tinggi} kab/kota) menampung {fmt(sh, 1)} persen penduduk miskin "
+                         "wilayah ini.")
+    return " ".join(t)
+
+def interp_persentase():
+    n = len(D)
+    hid = D[(D.P0 < MED["P0"]) & (D.INTENSITAS > KAB.INTENSITAS.quantile(.75))]
+    r1, r2 = _r(D.P0, D.P1), _r(D.P0, D.INTENSITAS)
+    t = []
+    if r1 is not None:
+        t.append(f"Pada {_lingkup()}, korelasi Spearman antara P0 dan P1 sebesar {fmt(r1)}, sedangkan antara P0 dan intensitas "
+                 f"kemiskinan {'hanya ' if 0 <= r2 < r1 else ''}{fmt(r2)}. Persentase penduduk miskin belum menggambarkan seberapa jauh pengeluaran "
+                 "penduduk miskin dari garis kemiskinan.")
+    else:
+        t.append(f"Jumlah wilayah terpilih ({n} kab/kota) terlalu sedikit untuk menghitung korelasi yang dapat diandalkan.")
+    if len(hid):
+        cth = ", ".join(hid.nlargest(3, "INTENSITAS").nama)
+        t.append(f"Sebanyak {len(hid)} kab/kota berada di kuadran kiri atas, yaitu P0 di bawah median nasional tetapi intensitas di atas "
+                 f"kuartil ketiga, antara lain {cth}; kemiskinan di wilayah ini mudah terabaikan bila hanya P0 yang diperhatikan.")
+    else:
+        t.append("Tidak ada kab/kota terpilih yang memiliki P0 rendah sekaligus intensitas kemiskinan tinggi.")
+    return " ".join(t)
+
+def interp_lisa(lv):
+    mi = META["moran"][lv]; c = D[f"LISA_{lv}"].value_counts(); n = len(D)
+    hh, ll = int(c.get("Tinggi–Tinggi", 0)), int(c.get("Rendah–Rendah", 0))
+    out = int(c.get("Tinggi–Rendah", 0) + c.get("Rendah–Tinggi", 0))
+    t = [f"Moran's I nasional untuk {lv} sebesar {fmt(mi['I'], 3)} (p = {fmt(mi['p'], 3)}), sehingga nilai {lv} suatu kabupaten/kota "
+         "cenderung serupa dengan wilayah tetangganya dan tidak tersebar secara acak."]
+    t.append(f"Dari {_lingkup()}, {hh} termasuk kantong Tinggi–Tinggi, {ll} termasuk Rendah–Rendah, {out} merupakan pencilan spasial, "
+             f"dan {n - hh - ll - out} tidak signifikan pada taraf 5 persen.")
+    if hh:
+        p = D[D[f"LISA_{lv}"] == "Tinggi–Tinggi"].provinsi.value_counts()
+        t.append(f"Kantong Tinggi–Tinggi paling banyak terdapat di {p.index[0]} ({p.iloc[0]} kab/kota).")
+    if n < len(KAB):
+        t.append("Klasifikasi ini berasal dari analisis seluruh kabupaten/kota, bukan dihitung ulang untuk wilayah terpilih.")
+    return " ".join(t)
+
+def interp_multivariat(sel):
+    ev = META["pca_var"]; n = len(D)
+    t = [f"Komponen utama pertama menjelaskan {fmt(ev[0]*100, 1)} persen keragaman sepuluh indikator. Komponen ini memisahkan wilayah "
+         "dengan P0, P1, dan P2 tinggi dari wilayah dengan IPM, pengeluaran per kapita, dan rata-rata lama sekolah tinggi."]
+    S = D[D.kode.isin(sel)] if sel else None
+    if S is not None and len(S):
+        t.append(f"Sebanyak {len(S)} kab/kota yang dipilih memiliki rata-rata P1 {fmt(S.P1.mean())} dan IPM {fmt(S.IPM.mean())}, "
+                 f"dibandingkan {fmt(KAB.P1.mean())} dan {fmt(KAB.IPM.mean())} untuk seluruh kab/kota.")
+        k = S.KLASTER.value_counts()
+        t.append(f"Sebagian besar termasuk klaster {k.index[0]} ({k.iloc[0]} wilayah).")
+    else:
+        m = D.PC1.mean()
+        t.append(f"Rata-rata skor PC1 pada {_lingkup()} sebesar {fmt(m)} (rata-rata seluruh kab/kota = 0), "
+                 + ("yang menunjukkan profil kemiskinan lebih berat daripada rata-rata." if m > .3 else
+                    "yang menunjukkan profil kemiskinan lebih ringan daripada rata-rata." if m < -.3 else
+                    "yang berarti profilnya mendekati rata-rata."))
+        out = D[D.PENCILAN]
+        if len(out):
+            t.append(f"Terdapat {len(out)} pencilan multivariat, antara lain {', '.join(out.nlargest(3, 'JARAK_PCA').nama)}.")
+    return " ".join(t)
+
+def interp_klaster(sel):
+    n = len(D); k = D.KLASTER.value_counts()
+    t = [f"Pada {_lingkup()}, klaster terbanyak adalah {k.index[0]} ({k.iloc[0]} wilayah atau {_pct(k.iloc[0], n)} persen)."]
+    k4 = D[D.KLASTER == "K4 · Miskin dalam"]
+    if len(k4):
+        t.append(f"Klaster K4 · Miskin dalam beranggotakan {len(k4)} kab/kota dengan rata-rata P1 {fmt(k4.P1.mean())}, IPM {fmt(k4.IPM.mean())}, "
+                 f"dan rata-rata lama sekolah {fmt(k4.RLS.mean())} tahun. Kedalaman kemiskinan pada klaster ini berasosiasi dengan "
+                 "capaian pendidikan dan kesehatan yang rendah, meskipun data potong lintang tidak menunjukkan arah sebab-akibat.")
+    else:
+        t.append("Tidak ada wilayah terpilih yang termasuk klaster K4 · Miskin dalam.")
+    g, lab = _grup()
+    if g and n >= KECIL:
+        sh = D.assign(r=D.KLASTER.isin(["K3 · Rentan", "K4 · Miskin dalam"])).groupby(g).r.mean().sort_values()
+        t.append(f"Proporsi wilayah rentan dan miskin dalam (K3 dan K4) tertinggi terdapat di {sh.index[-1]} ({_pct(sh.iloc[-1], 1)} persen) "
+                 f"dan terendah di {sh.index[0]} ({_pct(sh.iloc[0], 1)} persen).")
+    return " ".join(t)
+
+def interp_hierarki(size_v, color_v, HF):
+    nm = SHORT[color_v]
+    pul = HF[HF.parent == "Indonesia"].sort_values("value", ascending=False)
+    tot = pul.value.sum()
+    t = []
+    if len(pul) > 1 and size_v == "MISKIN":
+        t.append(f"{pul.label.iloc[0]} menampung bagian terbesar penduduk miskin pada {_lingkup()}, yaitu {_pct(pul.value.iloc[0], tot)} persen.")
+    elif len(pul) > 1:
+        t.append(f"{pul.label.iloc[0]} memiliki jumlah kab/kota terbanyak pada {_lingkup()} ({int(pul.value.iloc[0])} wilayah).")
+    if len(pul) > 1:
+        a = pul.sort_values("color").iloc[-1] if color_v != "IPM" else pul.sort_values("color").iloc[0]
+        t.append(f"Namun, nilai {nm} rata-rata tertimbang paling {'rendah' if color_v == 'IPM' else 'tinggi'} terdapat di {a.label} "
+                 f"({fmt(a.color)}). Perbedaan antara wilayah dengan blok terluas dan wilayah dengan warna paling kontras menunjukkan bahwa "
+                 "besarnya jumlah penduduk miskin dan beratnya kondisi kemiskinan merupakan dua dimensi yang berbeda.")
+    else:
+        pv = HF[HF.parent == pul.id.iloc[0]].sort_values("value", ascending=False)
+        ukur = "penduduk miskin" if size_v == "MISKIN" else "kab/kota"
+        if len(pv) > 1:
+            pc = pv.sort_values("color")
+            ext = pc.iloc[0] if color_v == "IPM" else pc.iloc[-1]
+            arah = 'rendah' if color_v == 'IPM' else 'tinggi'
+            t.append(f"Pada {_lingkup()}, {pv.label.iloc[0]} memiliki bagian {ukur} terbesar ({_pct(pv.value.iloc[0], tot)} persen)"
+                     + (f", sedangkan nilai {nm} provinsi paling {arah} terdapat di {ext.label} ({fmt(ext.color)})."
+                        if ext.label != pv.label.iloc[0] else f" sekaligus nilai {nm} provinsi paling {arah} ({fmt(ext.color)})."))
+            if ext.label != pv.label.iloc[0]:
+                t.append("Provinsi dengan blok terluas tidak sama dengan provinsi berwarna paling kontras; besarnya jumlah dan beratnya "
+                         "kondisi kemiskinan merupakan dua dimensi yang berbeda.")
+        elif len(pv):
+            kb = HF[HF.parent == pv.id.iloc[0]].sort_values("value", ascending=False)
+            t.append(f"Pada {_lingkup()}, {kb.label.iloc[0]} memiliki bagian {ukur} terbesar ({_pct(kb.value.iloc[0], tot)} persen).")
+    return " ".join(t)
+
+def interp_jaringan(G, cid, cent, mod, ncom, thr):
+    PV = PROV.set_index("provinsi")
+    t = [f"Pada ambang kemiripan {fmt(thr)}, jaringan memuat {G.number_of_nodes()} provinsi dan {G.number_of_edges()} edge yang "
+         f"terbagi ke dalam {ncom} komunitas (modularitas Q = {fmt(mod, 3)})."]
+    if ncom:
+        anggota = [n for n in G if cid[n] == 0]
+        t.append(f"Komunitas dengan rata-rata P1 tertinggi ({fmt(PV.loc[anggota, 'P1'].mean())}) terdiri atas {_daftar(sorted(anggota))}.")
+    if G.number_of_edges():
+        s = max(cent["Strength"], key=cent["Strength"].get)
+        b = max(cent["Betweenness"], key=cent["Betweenness"].get)
+        bv = cent["Betweenness"][b]
+        if bv > 0:
+            t.append(f"{s} memiliki degree tertimbang tertinggi ({fmt(cent['Strength'][s])})"
+                     + (f", sedangkan {b} memiliki betweenness tertinggi ({fmt(bv, 3)}) sehingga profilnya berada di antara beberapa kelompok."
+                        if b != s else f" sekaligus betweenness tertinggi ({fmt(bv, 3)}) sehingga profilnya berada di antara beberapa kelompok."))
+        else:
+            t.append(f"{s} memiliki degree tertimbang tertinggi ({fmt(cent['Strength'][s])}).")
+        t.append("Hubungan yang ditampilkan adalah kemiripan indikator, bukan aliran antarwilayah.")
+    return " ".join(t)
+
+def interp_data(T):
+    if T.empty:
+        return "Tidak ada baris yang sesuai dengan kata kunci pencarian."
+    return (f"Tabel menampilkan {len(T)} kabupaten/kota dengan total {fmt(T.MISKIN.sum() / 1000, 2)} juta penduduk miskin. "
+            f"Median P0, P1, dan P2 masing-masing {fmt(T.P0.median())} persen, {fmt(T.P1.median())}, dan {fmt(T.P2.median())}, "
+            f"sedangkan median IPM {fmt(T.IPM.median())}. Data dapat diunduh dalam format CSV untuk analisis lanjutan; "
+            "angka dibulatkan dua desimal sesuai tabel sumber BPS.")
+
+def interp(text):
+    h = "auto" if MOBILE else f"{INT_H}px"
+    st.markdown(f"<div class='interp' style='height:{h}'><b>Interpretasi.</b> {text}</div>", unsafe_allow_html=True)
 
 # =====================================================================================
 # FUNGSI PETA
@@ -473,24 +720,35 @@ if hal == "Dashboard":
         RH = PAGE_H - 100
         with row("r0", RH):
             with card("intro", RH):
-                pap = D[D.pulau == "Papua"]
                 n_hid = len(D[(D.P0 < MED["P0"]) & (D.INTENSITAS > KAB.INTENSITAS.quantile(.75))])
                 n_hh = int((D.LISA_P1 == "Tinggi–Tinggi").sum())
                 top_kab = D.loc[D.P1.idxmax()]
-                temuan = []
-                if len(pap):
-                    temuan.append(f"Median P1 kab/kota di Papua <b>{fmt(pap.P1.median())}</b>, sekitar "
-                                  f"{fmt(pap.P1.median() / max(D.P1.median(), 1e-9), 1)} kali median kab/kota terpilih.")
-                temuan.append(f"<b>{n_hid}</b> kab/kota memiliki P0 di bawah median tetapi intensitas kemiskinan di atas kuartil ketiga.")
-                temuan.append(f"<b>{n_hh}</b> kab/kota membentuk kantong P1 Tinggi–Tinggi (LISA, p &lt; 0,05).")
-                temuan.append(f"P1 tertinggi di <b>{top_kab.nama}</b> ({fmt(top_kab.P1)}), dengan P0 {fmt(top_kab.P0)}%.")
+                kal = [f"Pada {_lingkup()}, median P1 sebesar {fmt(D.P1.median())} dan nilai tertinggi tercatat di "
+                       f"{top_kab.nama} ({fmt(top_kab.P1)}) dengan P0 {fmt(top_kab.P0)} persen."]
+                g, lab = _grup()
+                if g and len(D) >= KECIL:
+                    md = D.groupby(g).P1.median().sort_values()
+                    kal.append(f"Menurut {lab}, median P1 tertinggi terdapat di {md.index[-1]} ({fmt(md.iloc[-1])}) dan terendah di "
+                               f"{md.index[0]} ({fmt(md.iloc[0])}).")
+                if len(P_sel) > 1:
+                    pt = P_sel.sort_values("MISKIN", ascending=False)
+                    pk = P_sel.sort_values("P1", ascending=False)
+                    kal.append(f"Penduduk miskin terbanyak berada di {pt.provinsi.iloc[0]}, sedangkan P1 provinsi tertinggi dimiliki "
+                               f"{pk.provinsi.iloc[0]} ({fmt(pk.P1.iloc[0])}); jumlah dan kedalaman kemiskinan tidak terpusat di wilayah yang sama."
+                               if pt.provinsi.iloc[0] != pk.provinsi.iloc[0] else
+                               f"{pt.provinsi.iloc[0]} memiliki penduduk miskin terbanyak sekaligus P1 provinsi tertinggi ({fmt(pk.P1.iloc[0])}).")
+                kal.append((f"Sebanyak {n_hid} kab/kota memiliki P0 di bawah median nasional tetapi intensitas kemiskinan di atas kuartil ketiga. "
+                            if n_hid else "Tidak ada kab/kota terpilih yang memiliki P0 di bawah median nasional dengan intensitas kemiskinan "
+                            "di atas kuartil ketiga. ")
+                           + (f"Sebanyak {n_hh} kab/kota termasuk kantong P1 Tinggi–Tinggi pada analisis LISA." if n_hh else
+                              "Tidak ada kab/kota terpilih yang termasuk kantong P1 Tinggi–Tinggi pada analisis LISA."))
                 st.markdown(f"""<div class='intro spread' style='height:{"auto" if MOBILE else f"{RH - 62}px"}'>
 <div><h1>Bukan Seberapa Banyak, Tapi Seberapa Dalam</h1>
 <div class='lead'>Kedalaman dan keparahan kemiskinan kabupaten/kota di Indonesia</div>
 <p>Dashboard ini membandingkan tiga ukuran kemiskinan BPS untuk 514 kabupaten/kota (2025):
 <b>P0</b>, berapa banyak penduduk di bawah garis kemiskinan; <b>P1</b>, seberapa jauh pengeluaran mereka dari garis itu;
 dan <b>P2</b>, seberapa timpang pengeluaran di antara penduduk miskin. Wilayah dengan P0 serupa bisa memiliki P1 dan P2 yang sangat berbeda.</p></div>
-<div class='menu'><h3>Temuan utama</h3><ul>{''.join(f'<li>{t}</li>' for t in temuan)}</ul></div>
+<div class='menu'><h3>Interpretasi</h3><p>{' '.join(kal)}</p></div>
 <div class='menu howto'><h3>Cara membaca</h3><p>Warna biru menandakan nilai rendah dan merah nilai tinggi. Gunakan menu di kiri
 untuk peta, autokorelasi spasial, analisis multivariat, hierarki, jaringan, serta tabel dan unduhan data.</p></div>
 </div>""", unsafe_allow_html=True)
@@ -526,7 +784,7 @@ untuk peta, autokorelasi spasial, analisis multivariat, hierarki, jaringan, sert
 if hal == "Persentase & Intensitas":
     page_header("Persentase & Intensitas", "Persentase penduduk miskin belum tentu mencerminkan seberapa dalam kemiskinan di suatu wilayah.")
     with page():
-        RH = PAGE_H
+        RH = PAGE_H - IH
         with row("r1b", RH):
             with card("scatter", RH):
                 head("Persentase penduduk miskin (P0) dan intensitas kemiskinan",
@@ -572,6 +830,7 @@ if hal == "Persentase & Intensitas":
                 fig.update_xaxes(title="P1")
                 chart(layout(fig, l=8, b=44), RH - CH)
                 foot(f"Median P1 kab/kota nasional: {fmt(MED['P1'])}")
+        interp(interp_persentase())
 
 if hal == "Peta Sebaran":
     page_header("Peta Sebaran", "Sebaran indikator kemiskinan dan pembangunan manusia pada 514 kabupaten/kota.")
@@ -582,7 +841,7 @@ if hal == "Peta Sebaran":
         metode = cc[2].selectbox("Klasifikasi", ["Natural breaks (Jenks)", "Kuantil", "Interval sama"], key="cls",
                                  disabled=jenis != "Choropleth")
         cari = cc[3].selectbox("Sorot kabupaten/kota", ["(tidak ada)"] + sorted(D.label), key="cari")
-        mw = cw(.72); RH = PAGE_H - CTRL
+        mw = cw(.72); RH = PAGE_H - CTRL - IH
         with row("r2", RH):
             with card("map", RH):
                 sub = D[D.label == cari] if cari != "(tidak ada)" else D
@@ -637,6 +896,8 @@ if hal == "Peta Sebaran":
                 foot()
 
 
+        interp(interp_peta(var, jenis))
+
 # =====================================================================================
 # HALAMAN 3 — AUTOKORELASI SPASIAL
 # =====================================================================================
@@ -650,7 +911,7 @@ if hal == "Autokorelasi Spasial":
         cc[2].markdown(f"<div class='note' style='padding-top:24px'>Moran's I global {lv} = <b>{fmt(mi['I'],3)}</b> "
                        f"(p = {fmt(mi['p'],3)}; 999 permutasi). Nilai positif yang tinggi berarti wilayah bertetangga memiliki nilai serupa.</div>",
                        unsafe_allow_html=True)
-        mw = cw(.64); RH = PAGE_H - CTRL
+        mw = cw(.64); RH = PAGE_H - CTRL - IH
         with row("r3", RH):
             with card("lisa", RH):
                 head(f"Peta klaster LISA untuk {lv}, 2025",
@@ -682,16 +943,18 @@ if hal == "Autokorelasi Spasial":
                 fig.add_hline(y=0, line=dict(color="#d1d5db", width=1)); fig.add_vline(x=0, line=dict(color="#d1d5db", width=1))
                 fig.update_xaxes(title=f"{lv} baku (z)", zeroline=False)
                 fig.update_yaxes(title="Lag spasial", zeroline=False)
-                chart(layout(fig, l=48, b=40), RH - CH - 168)
+                show_tags = MOBILE or RH >= 470   # pada layar pendek, provinsi kantong sudah disebut di interpretasi
+                chart(layout(fig, l=48, b=40), RH - CH - (168 if show_tags else 100))
                 cnt = D[f"LISA_{lv}"].value_counts()
                 hh = D[D[f"LISA_{lv}"] == "Tinggi–Tinggi"].provinsi.value_counts().head(3)
                 st.markdown("<div class='grid2'>" + "".join(
                     f"<div><span><span class='sw' style='background:{LISA_C[c_]}'></span>{c_}</span><b>{cnt.get(c_, 0)}</b></div>"
-                    for c_ in LISA_C) + "</div>"
+                    for c_ in LISA_C) + "</div>" + ((
                     "<div class='csub free' style='margin-top:8px'>Provinsi dengan klaster Tinggi–Tinggi terbanyak</div><div class='tags'>" +
                     ("".join(f"<span class='tag'>{p} ({n})</span>" for p, n in hh.items()) or "<span class='csub'>Tidak ada pada filter ini.</span>")
-                    + "</div>", unsafe_allow_html=True)
+                    + "</div>") if show_tags else ""), unsafe_allow_html=True)
                 foot("Garis: Moran's I")
+        interp(interp_lisa(lv))
 
 # =====================================================================================
 # HALAMAN 4 — MULTIVARIAT
@@ -699,7 +962,7 @@ if hal == "Autokorelasi Spasial":
 if hal == "Multivariat":
     page_header("Multivariat", "Sepuluh indikator kemiskinan dan IPM direduksi dengan PCA; pilih titik di biplot untuk menyorotnya di parallel coordinates.")
     with page():
-        RH = PAGE_H
+        RH = PAGE_H - IH
         with row("r4", RH):
             with card("pca", RH):
                 ev = META["pca_var"]
@@ -756,6 +1019,7 @@ if hal == "Multivariat":
                                              tickfont=dict(size=11, color=NAVY), rangefont=dict(size=1, color="rgba(0,0,0,0)")))
                 chart(layout(fig, l=36, r=40, t=62, b=14), RH - CH)
                 foot("Jumlah penduduk miskin ditampilkan dalam skala log")
+        interp(interp_multivariat(sel))
 
 # =====================================================================================
 # HALAMAN 5 — PROFIL KLASTER
@@ -764,7 +1028,7 @@ if hal == "Profil Klaster":
     page_header("Profil Klaster", "Karakteristik empat klaster K-Means dan sebarannya menurut pulau.")
     with page():
         sel = st.session_state.get("sel", set()) & set(D.kode)
-        RH = PAGE_H
+        RH = PAGE_H - IH
         with row("r5", RH):
             with card("hm", RH):
                 Zall = KAB[VARS].assign(MISKIN=np.log1p(KAB.MISKIN))
@@ -801,6 +1065,7 @@ if hal == "Profil Klaster":
                 fig.update_yaxes(tickfont=dict(size=12, color=INK2))
                 chart(layout(fig, l=8, b=60, legend=True), RH - CH)
                 foot()
+        interp(interp_klaster(sel))
 
 # =====================================================================================
 # HALAMAN 6 — HIERARKI
@@ -837,7 +1102,7 @@ if hal == "Hierarki":
         common = dict(ids=HF.id, parents=HF.parent, labels=HF.label, values=HF.value, branchvalues="total",
                       marker=dict(colors=HF.color, colorscale=scale_for(color_v), cmin=lo, cmax=hi, line=dict(width=1, color="#fff")),
                       hovertemplate="<b>%{label}</b><br>Ukuran: %{value:,.2f}<br>" + SHORT[color_v] + ": %{color:.2f}<extra></extra>")
-        RH = PAGE_H - CTRL
+        RH = PAGE_H - CTRL - IH
         with row("r6", RH):
             with card("treemap", RH):
                 head(f"Treemap: luas menurut {'jumlah penduduk miskin' if size_v=='MISKIN' else 'banyaknya kab/kota'}, warna menurut {SHORT[color_v]}",
@@ -853,6 +1118,7 @@ if hal == "Hierarki":
                 fig = go.Figure(go.Sunburst(**common, maxdepth=3, insidetextorientation="radial", textfont=dict(size=11.5)))
                 chart(layout(fig, l=0, r=0, t=2, b=2), RH - CH)
                 foot()
+        interp(interp_hierarki(size_v, color_v, HF))
 
 # =====================================================================================
 # HALAMAN 7 — JARINGAN
@@ -901,7 +1167,7 @@ if hal == "Jaringan":
                        unsafe_allow_html=True)
         PV = PROV.set_index("provinsi"); AB = PV.singkatan.to_dict()
         nbr = set(G.neighbors(focus)) if focus in G else set()
-        RH = PAGE_H - CTRL
+        RH = PAGE_H - CTRL - IH
         with row("r7", RH):
             with card("net", RH):
                 head("Graf kemiripan antarprovinsi (tata letak force-directed)",
@@ -959,6 +1225,7 @@ if hal == "Jaringan":
                 fig.update_xaxes(tickfont=dict(size=9.5), tickangle=-90, showgrid=False)
                 chart(layout(fig, l=4, t=4, b=2), RH - CH)
                 foot()
+        interp(interp_jaringan(G, cid, cent, mod, ncom, thr))
 
 # =====================================================================================
 # HALAMAN 8 — DATA & METODE
@@ -966,7 +1233,7 @@ if hal == "Jaringan":
 if hal == "Data & Metode":
     page_header("Data & Metode", "Tabel data hasil olahan, sumber, metode analisis, dan keterbatasan.")
     with page():
-        RH = PAGE_H
+        RH = PAGE_H - IH
         with row("r8", RH):
             with card("table", RH):
                 q1, q2, q3 = st.columns([1.6, 1, 1], vertical_alignment="center")
@@ -997,9 +1264,10 @@ if hal == "Data & Metode":
 Agregasi P0 dan jumlah penduduk miskin per provinsi sama dengan angka provinsi BPS.</p></div>
 <div><h4>Metode analisis</h4><p>Moran's I dan LISA (ketetanggaan <i>queen</i>, 999 permutasi); PCA dan K-Means (k = 4) pada sepuluh indikator baku;
 pencilan dari jarak Mahalanobis; jaringan kemiripan provinsi (kernel Gauss, 5 tetangga terdekat) dengan komunitas Louvain.</p></div>
-<div><h4>Rancangan visual</h4><p>Skala biru–merah ColorBrewer RdBu yang aman bagi buta warna; median kab/kota sebagai titik tengah.
+<div class='opt'><h4>Rancangan visual</h4><p>Skala biru–merah ColorBrewer RdBu yang aman bagi buta warna; median kab/kota sebagai titik tengah.
 Choropleth untuk rasio dan indeks; jumlah absolut dengan simbol proporsional.</p></div>
 <div><h4>Keterbatasan</h4><p>P1 dan P2 kab/kota berbasis Susenas sehingga galat baku relatif dapat tinggi di wilayah kecil; data satu periode;
 jaringan menggambarkan kemiripan, bukan aliran.</p></div>
 </div>""", unsafe_allow_html=True)
                 foot()
+        interp(interp_data(T))
