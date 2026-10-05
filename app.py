@@ -146,7 +146,7 @@ div[data-testid="stVerticalBlock"] {gap:10px;}
 .intro {display:flex; flex-direction:column; gap:.75em; color:#374151;}
 .intro h1 {font-size:1.75em; font-weight:700; color:#111827; line-height:1.2; margin:0; padding:0; white-space:nowrap; overflow:hidden;}
 .intro .lead {font-size:1.1em; color:#1f3a5f; font-weight:600; margin:.25em 0 .6em 0; white-space:nowrap; overflow:hidden;}
-.intro p {font-size:1em; line-height:1.55; margin:0; color:#374151;}
+.intro p {font-size:1em; line-height:1.5; margin:0; color:#374151;}
 .intro p b {color:#111827;}
 .intro h3 {font-size:1.12em; font-weight:700; color:#111827; margin:0 0 .3em 0; padding:0;}
 .meth {display:flex; flex-direction:column; gap:.85em; color:#374151;}
@@ -218,7 +218,6 @@ div[data-testid="stSegmentedControl"] label, div[data-testid="stTextInput"] labe
 .t5 .bw {height:11px; background:#f3f4f6; border-radius:3px; overflow:hidden;}
 .t5 .bw i {display:block; height:100%; background:#b2182b; border-radius:3px;}
 [data-testid="stLayoutWrapper"]:has(> .st-key-colL) {flex:0 0 calc(60% - 8px) !important; width:calc(60% - 8px) !important; max-width:calc(60% - 8px) !important;}
-[data-testid="stLayoutWrapper"]:has(> .st-key-colD) {flex:0 0 calc(48% - 8px) !important; width:calc(48% - 8px) !important; max-width:calc(48% - 8px) !important;}
 [data-testid="stLayoutWrapper"]:has(> .st-key-card_scatter) {flex:0 0 calc(58% - 8px) !important; width:calc(58% - 8px) !important; max-width:calc(58% - 8px) !important;}
 [data-testid="stLayoutWrapper"]:has(> .st-key-card_map) {flex:0 0 calc(72% - 8px) !important; width:calc(72% - 8px) !important; max-width:calc(72% - 8px) !important;}
 [data-testid="stLayoutWrapper"]:has(> .st-key-card_lisa) {flex:0 0 calc(64% - 8px) !important; width:calc(64% - 8px) !important; max-width:calc(64% - 8px) !important;}
@@ -380,21 +379,74 @@ with st.container(key="fitjs"):
         (function(){
           function one(el){
             el.querySelectorAll('h1, .lead').forEach(h=>{ h.style.fontSize=''; let s=parseFloat(getComputedStyle(h).fontSize);
-              while(h.scrollWidth>h.clientWidth+1 && s>13){ s-=.5; h.style.fontSize=s+'px'; } });
+              while(h.scrollWidth>h.clientWidth+1 && s>11){ s-=.5; h.style.fontSize=s+'px'; } });
           }
           function size(el,px){ el.style.fontSize=px+'px'; one(el); }
           function fit(el){
+            if(el.dataset.done==='1') return;
             const mn=+el.dataset.min||12, mx=+el.dataset.max||18;
             if(el.style.height==='auto'){ el.style.fontSize=Math.min(mx,16)+'px'; return; }
-            const opt=el.querySelectorAll('.howto'); opt.forEach(o=>o.style.display='');
+            const opt=[...el.querySelectorAll('.howto')]; opt.forEach(o=>o.style.display='');
             let lo=mn, hi=mx; size(el,mx);
             if(el.scrollHeight<=el.clientHeight+1) return;
-            size(el, mx>16?16:mn);   // bagian tambahan hanya ditampilkan bila muat dengan huruf yang nyaman dibaca
-            if(opt.length && el.scrollHeight>el.clientHeight+1){ opt.forEach(o=>o.style.display='none'); size(el,mx); if(el.scrollHeight<=el.clientHeight+1) return; }
+            for(let k=opt.length-1;k>=0;k--){ opt[k].style.display='none'; if(el.scrollHeight<=el.clientHeight+1) return; }
             for(let i=0;i<10;i++){ const m=(lo+hi)/2; size(el,m); if(el.scrollHeight<=el.clientHeight+1) lo=m; else hi=m; }
             size(el,lo);
           }
-          function run(){ document.querySelectorAll('.fit').forEach(fit); }
+          let lastKey='';
+          function balance(){
+            // Dashboard: huruf pendahuluan = huruf interpretasi; lebar kolom kiri dicari agar kedua kotak terisi penuh
+            const col=document.querySelector('.st-key-colD'); if(!col) return;
+            const it=col.querySelector('.interp'), card=col.querySelector('.st-key-card_intro'), intro=col.querySelector('.intro');
+            if(!it||!card||!intro) return;
+            let wrap=col.parentElement;
+            if(it.dataset.auto==='1' || window.innerWidth<760){   // ponsel: hapus pengaturan desktop
+              ['flex','width','max-width'].forEach(k=>wrap.style.removeProperty(k));
+              [card, card.parentElement].forEach(e=>{ if(e&&e!==col){ e.style.height=''; e.style.minHeight=''; e.style.maxHeight=''; } });
+              it.style.height=''; intro.style.height=''; intro.style.gap=''; intro.dataset.done=''; lastKey=''; return;
+            }
+            const total=col.clientHeight; if(total<200) return; if(wrap.getAttribute('data-testid')!=='stLayoutWrapper') wrap=col;
+            const W=wrap.parentElement.clientWidth, fs=+intro.dataset.max, base=+intro.dataset.fl||0.48;
+            const key=[W,total,it.textContent.length].join('|');
+            if(key===lastKey && intro.dataset.done==='1') return;
+            const opt=[...intro.querySelectorAll('.howto')];
+            it.style.fontSize=fs+'px';
+            function apply(px){
+              wrap.style.setProperty('flex','0 0 '+px+'px','important'); wrap.style.setProperty('width',px+'px','important');
+              wrap.style.setProperty('max-width',px+'px','important');
+              it.style.height='auto'; const need=Math.ceil(it.getBoundingClientRect().height); it.style.height=need+'px';
+              const ch=total-need-8;
+              [card, card.parentElement].forEach(e=>{ if(!e||e===col) return; e.style.height=ch+'px'; e.style.minHeight=ch+'px'; e.style.maxHeight=ch+'px'; });
+              intro.style.height=(ch-50)+'px'; intro.style.gap=''; size(intro,fs);
+              return intro.scrollHeight<=intro.clientHeight+1;
+            }
+            const lo0=W*Math.max(.34,base-.08), hi0=W*Math.min(.54,base+.06);
+            let ok=false;
+            for(let nb=opt.length; nb>=0 && !ok; nb--){
+              opt.forEach((o,i)=>o.style.display=i<nb?'':'none');
+              if(!apply(hi0)) continue;
+              let lo=lo0, hi=hi0;
+              for(let i=0;i<12;i++){ const m=(lo+hi)/2; if(apply(m)) hi=m; else lo=m; }
+              apply(Math.ceil(hi)); ok=true;
+            }
+            if(!ok){ apply(W*base); intro.dataset.done=''; return; }
+            intro.dataset.done='1';
+            if(key!==lastKey){ lastKey=key; setTimeout(()=>window.dispatchEvent(new Event('resize')),30); }
+          }
+          function spread(){
+            // sisa tinggi kecil di pendahuluan dibagi rata ke jarak antarblok (maksimal 2,4 em per jarak)
+            document.querySelectorAll('.intro').forEach(el=>{
+              if(el.style.height==='auto') return;
+              el.style.gap='';
+              const kids=[...el.children].filter(k=>k.style.display!=='none'); if(kids.length<2) return;
+              const fs=parseFloat(getComputedStyle(el).fontSize);
+              const free=el.getBoundingClientRect().bottom-kids[kids.length-1].getBoundingClientRect().bottom;
+              if(free<=2) return;
+              const g=Math.min(.75*fs+free/(kids.length-1)-1, 1.6*fs);
+              el.style.gap=g+'px';
+            });
+          }
+          function run(){ balance(); document.querySelectorAll('.fit').forEach(fit); spread(); }
           let t; const kick=()=>{ clearTimeout(t); t=setTimeout(run,80); };
           new MutationObserver(kick).observe(document.body,{childList:true,subtree:true,characterData:true});
           window.addEventListener('resize',kick); kick();
@@ -485,8 +537,7 @@ def interp_peta(var, jenis):
         top = D.nlargest(k, "MISKIN")
         di_atas = int((top.P1 > MED["P1"]).sum())
         t.append(f"Sepersepuluh wilayah dengan penduduk miskin terbanyak ({k} kab/kota) menampung {_pct(top.MISKIN.sum(), D.MISKIN.sum())} "
-                 f"persen penduduk miskin wilayah ini, tetapi hanya {di_atas} di antaranya memiliki P1 di atas median nasional. "
-                 "Wilayah dengan jumlah penduduk miskin besar tidak selalu memiliki kemiskinan yang dalam.")
+                 f"persen penduduk miskin, tetapi hanya {di_atas} yang memiliki P1 di atas median nasional.")
     elif var != "IPM":
         tinggi = int((s > s.quantile(.9)).sum()) if n >= 10 else 0
         if tinggi:
@@ -506,14 +557,14 @@ def interp_persentase():
     t = []
     if r1 is not None:
         t.append(f"Pada {_lingkup()}, korelasi Spearman antara P0 dan P1 sebesar {fmt(r1)}, sedangkan antara P0 dan intensitas "
-                 f"kemiskinan {'hanya ' if 0 <= r2 < r1 else ''}{fmt(r2)}. Persentase penduduk miskin belum menggambarkan seberapa jauh pengeluaran "
+                 f"kemiskinan {'hanya ' if 0 <= r2 < r1 else ''}{fmt(r2)}. P0 belum menggambarkan seberapa jauh pengeluaran "
                  "penduduk miskin dari garis kemiskinan.")
     else:
         t.append(f"Jumlah wilayah terpilih ({n} kab/kota) terlalu sedikit untuk menghitung korelasi yang dapat diandalkan.")
     if len(hid):
         cth = ", ".join(hid.nlargest(3, "INTENSITAS").nama)
         t.append(f"Sebanyak {len(hid)} kab/kota berada di kuadran kiri atas, yaitu P0 di bawah median nasional tetapi intensitas di atas "
-                 f"kuartil ketiga, antara lain {cth}; kemiskinan di wilayah ini mudah terabaikan bila hanya P0 yang diperhatikan.")
+                 f"kuartil ketiga, antara lain {cth}; kemiskinan di wilayah ini mudah terabaikan bila hanya melihat P0.")
     else:
         t.append("Tidak ada kab/kota terpilih yang memiliki P0 rendah sekaligus intensitas kemiskinan tinggi.")
     return " ".join(t)
@@ -523,14 +574,14 @@ def interp_lisa(lv):
     hh, ll = int(c.get("Tinggi–Tinggi", 0)), int(c.get("Rendah–Rendah", 0))
     out = int(c.get("Tinggi–Rendah", 0) + c.get("Rendah–Tinggi", 0))
     t = [f"Moran's I nasional untuk {lv} sebesar {fmt(mi['I'], 3)} (p = {fmt(mi['p'], 3)}), sehingga nilai {lv} suatu kabupaten/kota "
-         "cenderung serupa dengan wilayah tetangganya dan tidak tersebar secara acak."]
+         "cenderung serupa dengan wilayah tetangganya."]
     t.append(f"Dari {_lingkup()}, {hh} termasuk kantong Tinggi–Tinggi, {ll} termasuk Rendah–Rendah, {out} merupakan pencilan spasial, "
              f"dan {n - hh - ll - out} tidak signifikan pada taraf 5 persen.")
     if hh:
         p = D[D[f"LISA_{lv}"] == "Tinggi–Tinggi"].provinsi.value_counts()
         t.append(f"Kantong Tinggi–Tinggi paling banyak terdapat di {p.index[0]} ({p.iloc[0]} kab/kota).")
     if n < len(KAB):
-        t.append("Klasifikasi ini berasal dari analisis seluruh kabupaten/kota, bukan dihitung ulang untuk wilayah terpilih.")
+        t.append("Klasifikasi berasal dari analisis seluruh kabupaten/kota, bukan dihitung ulang.")
     return " ".join(t)
 
 def interp_multivariat(sel):
@@ -560,8 +611,8 @@ def interp_klaster(sel):
     k4 = D[D.KLASTER == "K4 · Miskin dalam"]
     if len(k4):
         t.append(f"Klaster K4 · Miskin dalam beranggotakan {len(k4)} kab/kota dengan rata-rata P1 {fmt(k4.P1.mean())}, IPM {fmt(k4.IPM.mean())}, "
-                 f"dan rata-rata lama sekolah {fmt(k4.RLS.mean())} tahun; kemiskinan yang dalam berasosiasi dengan capaian pendidikan "
-                 "dan kesehatan yang rendah, tanpa menunjukkan arah sebab-akibat.")
+                 f"dan rata-rata lama sekolah {fmt(k4.RLS.mean())} tahun; kemiskinan dalam berasosiasi dengan capaian pendidikan "
+                 "dan kesehatan rendah, tanpa menunjukkan arah sebab-akibat.")
     else:
         t.append("Tidak ada wilayah terpilih yang termasuk klaster K4 · Miskin dalam.")
     g, lab = _grup()
@@ -633,13 +684,28 @@ def interp_data(T):
 
 def interp(text, h=None):
     h = "auto" if MOBILE else f"{h or INT_H}px"
-    st.markdown(f"<div class='interp fit' data-min='11' data-max='{IFS}' style='height:{h}'><span class='it'>Interpretasi.</span>{text}</div>",
+    st.markdown(f"<div class='interp fit' data-min='11' data-max='{IFS}' data-auto='{1 if MOBILE else 0}' style='height:{h}'><span class='it'>Interpretasi.</span>{text}</div>",
                 unsafe_allow_html=True)
+
+CW = 0.43  # rata-rata lebar satu karakter (em) untuk perkiraan jumlah baris
+
+def n_lines(chars, width, fs):
+    return int(np.ceil(chars * CW * fs / max(width, 100)))
 
 def interp_height(text, width):
     """Perkiraan tinggi kotak interpretasi (px) untuk lebar kotak tertentu pada ukuran huruf IFS."""
-    lines = int(np.ceil((len(text) + 14) * 0.45 * IFS / max(width - 34, 100)))
+    raw = (len(text) + 14) * CW * IFS / max(width - 34, 100)
+    lines = int(np.ceil(raw + (.15 if raw % 1 > .85 else 0)))   # baris terakhir yang hampir penuh dihitung satu baris lagi
     return int(np.ceil(lines * 1.5 * IFS + 23))
+
+def intro_height(width, p_chars, extra):
+    """Perkiraan tinggi kartu pendahuluan Dashboard (px) pada ukuran huruf IFS; extra = panjang teks blok tambahan yang tampil."""
+    w = width - 34
+    h = 1.2 * min(1.75 * IFS, w / (42 * .56)) + 1.5 * min(1.1 * IFS, w / (63 * .5)) + .85 * IFS
+    h += n_lines(p_chars, w, IFS) * 1.55 * IFS
+    for c in extra:
+        h += .75 * IFS + 1.12 * IFS * 1.3 + .3 * IFS + n_lines(c, w, IFS) * 1.5 * IFS
+    return h + 50
 
 # =====================================================================================
 # FUNGSI PETA
@@ -775,17 +841,39 @@ if hal == "Dashboard":
                        + (f"Sebanyak {n_hh} kab/kota termasuk kantong P1 Tinggi–Tinggi pada analisis LISA." if n_hh else
                           "Tidak ada kab/kota terpilih yang termasuk kantong P1 Tinggi–Tinggi pada analisis LISA."))
             teks = " ".join(kal)
-            hI = interp_height(teks, cw(.48) - 8)
+            P_TXT = ("Dashboard ini membandingkan tiga ukuran kemiskinan BPS untuk 514 kabupaten/kota (2025): "
+                     "<b>P0</b>, berapa banyak penduduk di bawah garis kemiskinan; <b>P1</b>, seberapa jauh pengeluaran mereka dari garis itu; "
+                     "dan <b>P2</b>, seberapa timpang pengeluaran di antara penduduk miskin. Wilayah dengan P0 serupa bisa memiliki P1 dan P2 yang sangat berbeda.")
+            H_TXT = ("Warna biru menandakan nilai rendah dan merah nilai tinggi. Gunakan menu di kiri untuk peta, autokorelasi spasial, "
+                     "analisis multivariat, hierarki, jaringan, serta tabel dan unduhan data.")
+            D_TXT = ("Tabel P0, P1, P2, dan jumlah penduduk miskin menurut kabupaten/kota serta Indeks Pembangunan Manusia, BPS 2025. "
+                     "Analisis spasial memakai batas wilayah kabupaten/kota (GeoJSON) sebagai data pendukung.")
+            pc, ex = len(P_TXT) - 21, [len(H_TXT), len(D_TXT)]
+            # lebar kolom kiri dipilih agar pendahuluan + interpretasi (huruf sama dengan interpretasi halaman lain) mengisi tinggi baris
+            best = None
+            for f in np.arange(.40, .521, .005):
+                wpx = MAIN_W * f - 8
+                for nb in (2, 1, 0):
+                    tot = intro_height(wpx, pc, ex[:nb]) + 8 + interp_height(teks, wpx) + (1.5 * IFS if nb else 0)  # cadangan satu baris
+                    if tot <= RH - 6:
+                        gap_ = RH - tot - 40 * nb   # utamakan susunan yang memuat lebih banyak blok
+                        if best is None or gap_ < best[0]:
+                            best = (gap_, f, nb)
+            FL = best[1] if best else .48
+            wL = MAIN_W * FL - 8
+            hI = interp_height(teks, wL)
+            if not MOBILE:
+                st.markdown(f"<style>[data-testid='stLayoutWrapper']:has(> .st-key-colD) {{flex:0 0 calc({FL * 100:.1f}% - 8px) !important;"
+                            f" width:calc({FL * 100:.1f}% - 8px) !important; max-width:calc({FL * 100:.1f}% - 8px) !important;}}</style>",
+                            unsafe_allow_html=True)
             with st.container(height="content" if MOBILE else int(RH), border=False, key="colD", gap="small"):
                 with card("intro", RH - hI - 8):
-                    st.markdown(f"""<div class='intro fit' data-min='13' data-max='{22 if VH >= 900 else 20}' style='height:{"auto" if MOBILE else f"{RH - hI - 8 - 50}px"}'>
+                    st.markdown(f"""<div class='intro fit' data-min='{IFS - 1.5}' data-max='{IFS}' data-fl='{FL:.3f}' style='height:{"auto" if MOBILE else f"{RH - hI - 8 - 50}px"}'>
 <div><h1>Bukan Seberapa Banyak, Tapi Seberapa Dalam</h1>
 <div class='lead'>Kedalaman dan keparahan kemiskinan kabupaten/kota di Indonesia</div>
-<p>Dashboard ini membandingkan tiga ukuran kemiskinan BPS untuk 514 kabupaten/kota (2025):
-<b>P0</b>, berapa banyak penduduk di bawah garis kemiskinan; <b>P1</b>, seberapa jauh pengeluaran mereka dari garis itu;
-dan <b>P2</b>, seberapa timpang pengeluaran di antara penduduk miskin. Wilayah dengan P0 serupa bisa memiliki P1 dan P2 yang sangat berbeda.</p></div>
-<div class='menu howto'><h3>Cara membaca</h3><p>Warna biru menandakan nilai rendah dan merah nilai tinggi. Gunakan menu di kiri
-untuk peta, autokorelasi spasial, analisis multivariat, hierarki, jaringan, serta tabel dan unduhan data.</p></div>
+<p>{P_TXT}</p></div>
+<div class='menu howto'><h3>Cara membaca</h3><p>{H_TXT}</p></div>
+<div class='menu howto'><h3>Data</h3><p>{D_TXT}</p></div>
 </div>""", unsafe_allow_html=True)
                     foot()
                 interp(teks, hI)
@@ -813,7 +901,7 @@ untuk peta, autokorelasi spasial, analisis multivariat, hierarki, jaringan, sert
                 fig.update_layout(bargap=.25)
                 ml, mr = 8, 40
                 if len(parts) == 2:  # dua kolom: skala sama, seluruh susunan diletakkan di tengah kartu
-                    P = cw(.52) - 34
+                    P = (MAIN_W * (1 - FL) - 8) - 34
                     fsz = 10.5 if RH < 600 else 12
                     lab = [max(len(x) for x in pt.nm) * .5 * fsz + 10 for pt in parts]
                     mx = [pt.MISKIN.max() for pt in parts]
